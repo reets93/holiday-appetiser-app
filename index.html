@@ -5,17 +5,62 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Holiday Appetiser</title>
 </head>
 
 <body>
-<h1>testing</h1>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">Holiday Planning App</span>
+      </nav>
+
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label class=text-centre for="exampleInputEmail1">Where do you want to go?</label>
+              <input type="city" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="random" class="btn btn-primary">Surprise Me</button>
+          </form>
+        </div>
+      </div>
+
+      <div class = "destination">
+        <h1 id = "dest-header">We're going to .....</h1>
+        <h1 id = "chosen-city">Barcelona</h1>
+      </div>
+    <section>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body" id="card-1">
+          
+          <ul>
+          <li class="date"></li>
+          <li class="language"></li>
+          <li class="currency"></li>
+          <li class="airport"></li>
+
+        </ul>
+        </div>
+      </div>
+    
+
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text">Flag</p>
+            </div>
+          </div>
+        </section>
 
 
-
+      <footer class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">This is where social media icons will go!</span>
+      </footer>
 
     <!-- Moment.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
@@ -23,8 +68,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Will need to enter a different file for keys for deploying to github -->
-    <script src="./assets/js/public-keys.js"></script>
-    <script src="./assets/js/keys.js"></script>
+    <!-- <script src="./assets/js/public-keys.js"></script>
+    <script src="./assets/js/keys.js"></script> -->
     <script src="./assets/js/script.js"></script>
 </body>
 

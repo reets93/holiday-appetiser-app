@@ -1,3 +1,35 @@
 h1 {
     font-size: 50px;
 }
+
+.form-control {
+    width: 20%;
+}
+
+form {
+    margin: 0 auto;
+}
+
+.text-centre {
+    text-align: center;
+}
+
+body {
+text-align: justify;
+
+}
+
+#dest-header {
+    font-size: 150%;
+    padding-left: 20px;
+}
+
+#chosen-city {
+    text-align: center;
+}
+
+section {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+}
