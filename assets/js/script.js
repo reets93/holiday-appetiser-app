@@ -20,10 +20,14 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
         console.log(response)
         //clears search input after submit
         $('#exampleInputEmail1').val('')
-        $('#chosen-city').val('') // clear header (CHECK THIS!)
+        $('#chosen-city').empty() // clear header (CHECK THIS!)
+        $('.image').empty()
+        $('.info').empty()
+        
         // adds city to heading of results
         $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
-
+        loadImg(destination)
+        infos(destination)
         initialData(response)
         moreDetails(response)
     })
@@ -33,8 +37,8 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
 // adds basic info to the page 
 function initialData(response) {
     //adds timezone to facts
-    var timezone = "Time Zone: " + response.timezone //added response li and changed class to id
-    $('#timezone').text(timezone)
+    // var timezone = "Time Zone: " + response.timezone //added response li and changed class to id
+    // $('#timezone').text(timezone)
 
     // var time = moment().tz(timezone).format("h:mma"); //need to link to city input timezone
     // var date = moment().tz(timezone).format("Do MMM YYYY") ///need to link to city input timezone
