@@ -1,87 +1,114 @@
 
-// const settings = {
-// 	async: true,
-// 	crossDomain: true,
-// 	url: "https://booking-com.p.rapidapi.com/v1/metadata/exchange-rates?locale=en-gb&currency=AED",
-// 	method: "GET",
-// 	headers: {
-// 		"X-RapidAPI-Key": "e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7",
-// 		"X-RapidAPI-Host": "booking-com.p.rapidapi.com"
-// 	}
-// };
+//* * * * for Surprise Me city --> need to create an array of random cities to be randomly generated on button click
+// RITA's OPENTRIPMAP API
+var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
+var radius = "5000" //5km radius 
+var destination;
 
-// $.ajax(settings).done(function (response) {
-// 	console.log(response);
-// });
+// generate basic details for the city
+$('#submit-btn').on('click', function (e) { //added id on submit button
+    e.preventDefault()
+    e.stopPropagation()
 
-// const settings = {
-// 	async: true,
-// 	crossDomain: true,
-// 	url: "https://hotels-com-provider.p.rapidapi.com/v2/hotels/details?domain=AE&locale=en_GB&hotel_id=1105156",
-// 	method: "GET",
-// 	headers: {
-// 		"X-RapidAPI-Key": "e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7",
-// 		"X-RapidAPI-Host": "hotels-com-provider.p.rapidapi.com"
-// 	}
-// };
-
-// $.ajax(settings).done(function (response) {
-// 	console.log(response);
-// });
-
-
-
-
-
-    // $.ajax({
-    //     url: "https://api.opentripmap.com/0.1/en/places/?apikey=5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329",
-    //     method: "GET",
-    //     }).then(function(response) {  // We store all of the retrieved data inside of an object called "response"
-    //        console.log(current)
-    //        console.log("GOt current weather api response")
-    //        console.log(response)
-    //     })
-
-    // const apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
-
-    // function apiGet(method, query) {
-    //   return new Promise(function(resolve, reject) {
-    //     var otmAPI =
-    //       "https://api.opentripmap.com/0.1/en/places/" +
-    //       method +
-    //       "?apikey=" +
-    //       apiKey;
-    //     if (query !== undefined) {
-    //       otmAPI += "&" + query;
-    //     }
-    //     fetch(otmAPI)
-    //       .then(response => response.json())
-    //       .then(data => resolve(data))
-    //       .catch(function(err) {
-    //         console.log("Fetch Error :-S", err);
-    //       });
-    //   });
-    // }
-    // apiGet("Get", "Barcelona")
+    destination = $('#exampleInputEmail1').val().trim()
+    var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
 
     $.ajax({
-        url: "https://api.opentripmap.com/0.1/en/places/radius?radius=1000&lon=37.61556&lat=55.75222&format=json&limit=5&apikey=5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329",
+        url: destURL,
         method: "GET",
-        }).then(function(response) {  // We store all of the retrieved data inside of an object called "response"
-           console.log(response)
-        })
+    }).then(function (response) {
+        console.log(response)
+        //clears search input after submit
+        $('#exampleInputEmail1').val('')
+        $('#chosen-city').val('') // clear header (CHECK THIS!)
+        // adds city to heading of results
+        $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
 
-        // const settings = {
-        //     async: true,
-        //     crossDomain: true,
-        //     url: "https://opentripmap-places-v1.p.rapidapi.com/%7Blang%7D/places/geoname?name=London",
-        //     method: "GET",
-        //     headers: {
-        //         "X-RapidAPI-Key": "e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7",
-        //         "X-RapidAPI-Host": "opentripmap-places-v1.p.rapidapi.com"
-        //     }
-        // };
-        
-        // $.ajax(settings).done(function (response) {
-        //     console.log(response);
-        // });
+        initialData(response)
+        moreDetails(response)
+    })
+
+})
+
+// adds basic info to the page 
+function initialData(response) {
+    //adds timezone to facts
+    var timezone = "Time Zone: " + response.timezone //added response li and changed class to id
+    $('#timezone').text(timezone)
+
+    // var time = moment().tz(timezone).format("h:mma"); //need to link to city input timezone
+    // var date = moment().tz(timezone).format("Do MMM YYYY") ///need to link to city input timezone
+    // $('#date').text("It is now   " + time + " on the  " + date)
+
+}
+
+
+// uses basic info + inputted radius to generate search results 
+function moreDetails(response) {
+    var lon = response.lon
+    var lat = response.lat
+
+    var filtersURL = "https://api.opentripmap.com/0.1/en/places/radius?radius=" + radius + "&lon=" + lon + "&lat=" + lat + "&format=json&limit=4&apikey=" + apiKey
+
+    $.ajax({
+        url: filtersURL,
+        method: "GET",
+    }).then(function (filterResults) {
+        console.log(filterResults)
+
+        topAttractions(filterResults)
+    })
+}
+
+function topAttractions(filterResults) { //links not properly working?
+    $('#attraction-1').text(filterResults[0].name)
+    $('#btn-1').attr("href", "https://www.wikidata.org/wiki/"+filterResults[0].xid)
+    $('#attraction-2').text(filterResults[1].name)
+    $('#btn-1').attr("href", "https://www.wikidata.org/wiki/"+filterResults[1].xid)
+    $('#attraction-3').text(filterResults[2].name)
+    $('#btn-1').attr("href", "https://www.wikidata.org/wiki/"+filterResults[2].xid)
+    $('#attraction-4').text(filterResults[3].name)
+    $('#btn-1').attr("href", "https://www.wikidata.org/wiki/"+filterResults[3].xid)
+
+
+}
+
+
+// KAMEL UNSPLASH 
+// let destination = prompt("Where do you want to go?")
+let unsplashKey = "ESyjXqRXwVskR1K0ur2j9_oBwjBORBDQ-nCOppV4ie0";
+$("#welcome").text("Welcome to " + destination);
+window.addEventListener('load', loadImg);
+function loadImg() {
+  const url = "https://api.unsplash.com/search/photos?query="+ destination +"&order_by=relevant&orientation=landscape&client_id="+ unsplashKey;
+  const imageDiv = document.querySelector('.image');
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+                for (let i = 0; i < data.results.length; i++) {
+                        $(".image").append($("<img>")
+                        .attr("src",data.results[i].urls.thumb)
+                        .attr("alt",data.results[i].alt_description)
+                )}
+            });
+}
+//end unsplash
+
+// KAMEL Wiki
+window.addEventListener('load', infos);
+function infos() {
+  const url = "https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&prop=extracts&exchars=1000&exintro=true&explaintext=true&generator=search&gsrlimit=3&gsrsearch="+ destination ;
+  const infoDiv = document.querySelector('.info');
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+                let result = Object.values(data.query.pages);
+                console.log(result[0].extract);
+                $(".info").append($("<p>").text(result[0].extract));
+        });
+}
+// end wiki

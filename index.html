@@ -2,75 +2,120 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Holiday Appetiser</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <title>Holiday Appetiser</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">Holiday Planning App</span>
-      </nav>
+  <nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">Holiday Planning App</span>
+  </nav>
 
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <form>
-            <div class="form-group">
-              <label class=text-centre for="exampleInputEmail1">Where do you want to go?</label>
-              <input type="city" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-            <button type="random" class="btn btn-primary">Surprise Me</button>
-          </form>
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <form>
+        <div class="form-group">
+          <label class=text-centre for="exampleInputEmail1">Where do you want to go?</label>
+          <input type="city" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         </div>
-      </div>
+        <button type="submit" id="submit-btn" class="btn btn-primary">Search</button>
+        <button type="random" class="btn btn-primary">Surprise Me</button>
+      </form>
+    </div>
+  </div>
 
-      <div class = "destination">
-        <h1 id = "dest-header">We're going to .....</h1>
-        <h1 id = "chosen-city">Barcelona</h1>
-      </div>
-    <section>
-      <div class="card" style="width: 18rem;">
-        <div class="card-body" id="card-1">
-          
-          <ul>
-          <li class="date"></li>
-          <li class="language"></li>
-          <li class="currency"></li>
-          <li class="airport"></li>
+  <div class="destination">
+    <h1 id="dest-header">We're going to .....</h1>
+    <h1 id="chosen-city"></h1>
+  </div>
+  <section>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body" id="card-1">
+
+        <ul>
+          <li id="date"></li>
+          <li id="timezone"></li>
+          <li id="language"></li>
+          <li id="currency"></li>
+          <li id="airport"></li>
 
         </ul>
+      </div>
+    </div>
+
+
+    <div class="card" style="width: 18rem;">
+      <img src="..." class="card-img-top" alt="...">
+      <div class="card-body">
+        <p class="card-text">Flag</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- top attractions in your area -->
+  <div id="attractions-container">
+    <h1 id="dest-header">Places you might find interesting...</h1>
+    <div class="row" id="top-attractions">
+      <div class="col-sm-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" id="attraction-1">Attraction 1</h5>
+            <a href="#" class="btn btn-primary" id="btn-1">Find out more</a>
+          </div>
         </div>
       </div>
-    
 
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-              <p class="card-text">Flag</p>
-            </div>
+      <div class="col-sm-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" id="attraction-2">Attraction 2</h5>
+            <a href="#" class="btn btn-primary" id="btn-2">Find out more</a>
           </div>
-        </section>
+        </div>
+      </div>
 
+      <div class="col-sm-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" id="attraction-3">Attraction 3</h5>
+            <a href="#" class="btn btn-primary" id="btn-3">Find out more</a>
+          </div>
+        </div>
+      </div>
 
-      <footer class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">This is where social media icons will go!</span>
-      </footer>
+      <div class="col-sm-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title" id="attraction-4">Attraction 4</h5>
+            <a href="#" class="btn btn-primary" id="btn-4">Find out more</a>
+          </div>
+        </div>
+      </div>
 
-    <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </div>
+  </div>
+  <!-- end top attractions  -->
 
-    <!-- Will need to enter a different file for keys for deploying to github -->
-    <!-- <script src="./assets/js/public-keys.js"></script>
+  <footer class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">This is where social media icons will go!</span>
+  </footer>
+
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script src="./assets/js/moment-timezone.js"></script>
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Will need to enter a different file for keys for deploying to github -->
+  <!-- <script src="./assets/js/public-keys.js"></script>
     <script src="./assets/js/keys.js"></script> -->
-    <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
