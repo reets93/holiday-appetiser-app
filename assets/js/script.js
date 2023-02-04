@@ -122,6 +122,7 @@ $("#welcome").text("Welcome to " + destination);
 window.addEventListener('load', loadImg);
 function loadImg() {
     const url = "https://api.unsplash.com/search/photos?query=" + destination + "&order_by=relevant&orientation=landscape&client_id=" + unsplashKey;
+ 
     fetch(url)
         .then(response => {
             return response.json();
