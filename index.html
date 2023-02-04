@@ -21,11 +21,11 @@
     <div class="container">
       <form>
         <div class="form-group">
-          <label class=text-centre for="exampleInputEmail1">Where do you want to go?</label>
-          <input type="city" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <label class=text-centre for="searchInput">Where do you want to go?</label>
+          <input type="city" class="form-control" id="searchInput" aria-describedby="emailHelp">
         </div>
         <button type="submit" id="submit-btn" class="btn btn-primary">Search</button>
-        <button type="random" class="btn btn-primary">Surprise Me</button>
+        <button type="random" id="random-btn" class="btn btn-primary">Surprise Me</button>
       </form>
     </div>
   </div>
@@ -34,47 +34,50 @@
     <h1 id="dest-header">We're going to .....</h1>
     <h1 id="chosen-city"></h1>
   </div>
-  <section>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body" id="card-1">
-
+  <section id="information">
+    <div class="row">
+      <div class="column" style="background-color:#aaa;">
         <ul>
           <li id="date"></li>
           <li id="timezone"></li>
           <li id="language"></li>
           <li id="currency"></li>
           <li id="airport"></li>
-
         </ul>
       </div>
-    </div>
 
-
-    <div class="card" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <p class="card-text">Flag</p>
+      <div id="flag"  class="column" style="background-color:#bbb;">
+        <!-- <img id="flag" class="card-text"></img> -->
       </div>
     </div>
+
   </section>
+  </br>
 
+  <!-- image gallery section -->
+  <section class="image"></section>
+<!-- end image section -->
 
+  </br>
 
-  <!-- image section -->
-<section class="image">
+  <!-- info section -->
+  <section id="cards">
+    <div class="card" style="width: 40rem; padding: 20px 30px">
+      <h5 id="info-title"></h5>
+      <div class="info"></div>
+    </div>
 
-</section>
-
-<!-- info section -->
-<section class="info">
-
-</section>
+    <div class="card" style="width: 40rem">
+      <div class="translator">Translator</div>
+    </div>
+  </section>
+  <!-- end info section -->
 
   <!-- top attractions in your area -->
   <div id="attractions-container">
     <h1 id="dest-header">Places you might find interesting...</h1>
     <div class="row" id="top-attractions">
-      <div class="col-sm-3">
+      <div class="col-sm-12 col-md-6 col-lg-3 attraction-card">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title" id="attraction-1">Attraction 1</h5>
@@ -83,7 +86,7 @@
         </div>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-12 col-md-6 col-lg-3 attraction-card">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title" id="attraction-2">Attraction 2</h5>
@@ -92,7 +95,7 @@
         </div>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-12 col-md-6 col-lg-3 attraction-card">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title" id="attraction-3">Attraction 3</h5>
@@ -101,7 +104,7 @@
         </div>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-12 col-md-6 col-lg-3 attraction-card">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title" id="attraction-4">Attraction 4</h5>
@@ -125,8 +128,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- Will need to enter a different file for keys for deploying to github -->
-  <!-- <script src="./assets/js/public-keys.js"></script>
-    <script src="./assets/js/keys.js"></script> -->
+  <!-- <script src="./assets/js/public-keys.js"></script> -->
+  <!-- <script src="./assets/js/keys.js"></script> -->
   <script src="./assets/js/script.js"></script>
 </body>
 

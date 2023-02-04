@@ -15,8 +15,7 @@ form {
 }
 
 body {
-text-align: justify;
-
+    text-align: justify;
 
 }
 
@@ -40,4 +39,48 @@ section {
     margin-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+#cards {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+}
+
+.information {
+    display: flex;
+}
+
+.column {
+    width: 500px;
+    height: auto;
+
+    margin-top: 5px;
+}
+
+.row {
+    justify-content: space-around;
+}
+
+.image {
+    display: inline-flex;
+    margin: 0 auto;
+}
+
+.card {
+    padding: 20px 30px;
+}
+
+section {
+    margin-top: 30px;
+}
+
+#attractions-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.attraction-card {
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
