@@ -18,11 +18,11 @@
   </nav>
 
   <div class="jumbotron jumbotron-fluid">
-    <div class="container">
+    <div class="container mainInput">
       <form>
         <div class="form-group">
-          <label class=text-centre for="searchInput">Where do you want to go?</label>
-          <input type="city" class="form-control" id="searchInput" aria-describedby="emailHelp">
+          <label class=text-centre for="searchInput">Which city do you want to go?</label>
+          <input type="city" class="form-control wide" id="searchInput" aria-describedby="searchInput">
         </div>
         <button type="submit" id="submit-btn" class="btn btn-primary">Search</button>
         <button type="random" id="random-btn" class="btn btn-primary">Surprise Me</button>
@@ -30,24 +30,32 @@
     </div>
   </div>
 
+  <!-- Previously searched destinations -->
+  <div id="searchHistory" class="container">
+    <h6>You've previously searched for...</h6>
+    <div id="hist-buttons"></div>
+  </div>
+
+  <div id="destination-Info" class="hide container">
   <div class="destination">
     <h1 id="dest-header">We're going to .....</h1>
     <h1 id="chosen-city"></h1>
   </div>
-  <section id="information">
+
+  <!-- destination information -->
+  <section id="information" class="container">
     <div class="row">
       <div class="column" style="background-color:#aaa;">
         <ul>
           <li id="date"></li>
           <li id="timezone"></li>
-          <li id="language"></li>
-          <li id="currency"></li>
+          <li id="population"></li>
+          <li id="country"></li>
           <li id="airport"></li>
         </ul>
       </div>
 
-      <div id="flag"  class="column" style="background-color:#bbb;">
-        <!-- <img id="flag" class="card-text"></img> -->
+      <div id="flag" class="column" style="background-color:#bbb;">
       </div>
     </div>
 
@@ -55,13 +63,13 @@
   </br>
 
   <!-- image gallery section -->
-  <section class="image"></section>
-<!-- end image section -->
+  <section class="image container"></section>
+  <!-- end image section -->
 
   </br>
 
   <!-- info section -->
-  <section id="cards">
+  <section id="cards" class="container">
     <div class="card" style="width: 40rem; padding: 20px 30px">
       <h5 id="info-title"></h5>
       <div class="info"></div>
@@ -72,6 +80,7 @@
     </div>
   </section>
   <!-- end info section -->
+
 
   <!-- top attractions in your area -->
   <div id="attractions-container">

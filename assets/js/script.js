@@ -1,138 +1,166 @@
 // RITA's OPENTRIPMAP API
-var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
-var radius = "15000"; //15km radius
+var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
+var radius = "15000" //15km radius 
 var destination;
 
+// persist local storage 
+// if nothing in local storage, previously searched is hidden
+if (localStorage.length == 0) {
+    $('#searchHistory').addClass("hide") // check this code
+}
+
+// displays searched cities from previous sessions (won't update / populate straight away)
+persistData()
+function persistData() {
+    for (i = 0; i < localStorage.length; i++) {
+        var historyBtn = $('<button>').addClass("history-btn").addClass("btn").addClass("btn-outline-primary").css({ border: "#f6f6f6", margin: "5px", padding: "4px" })
+        var histText = localStorage.getItem("destination" + [i])
+        historyBtn.text(histText.charAt(0).toUpperCase() + histText.slice(1))
+        $('#hist-buttons').append(historyBtn)
+    }
+}
+
+// link search history button to search
+$(".history-btn").on('click', function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    var content = $(e.target).text()
+    destination = content
+    console.log("hist-btn:" + destination)
+    destinationData()
+})
+
 // generate random city from list of cities
-$("#random-btn").on("click", function (e) {
-  e.preventDefault();
-  e.stopPropagation();
+$('#random-btn').on('click', function (e) {
+    e.preventDefault()
+    e.stopPropagation()
 
-  var citiesArr = [
-    "Mexico City",
-    "Belgrade",
-    "Lisbon",
-    "Buenos Aires",
-    "Milan",
-    "Shanghai",
-    "Beijing",
-    "Paris",
-    "Cairo",
-    "Beirut",
-    "Manila",
-    "Hong Kong",
-    "Toronto",
-    "Dakar",
-    "Delhi",
-    "Kyiv",
-    "Warsaw",
-    "Prague",
-    "Dublin",
-    "Hamburg",
-    "Los Angeles",
-  ];
-  var surpriseMe = function (arr) {
-    //https://www.programiz.com/javascript/examples/get-random-item
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    const randomCity = arr[randomIndex];
-    return randomCity;
-  };
-  const surpriseCity = surpriseMe(citiesArr);
-  console.log("Random city is: " + surpriseCity);
+    var citiesArr = ["Mexico City", "Belgrade", "Lisbon", "Buenos Aires", "Milan", "Shanghai", "Beijing", "Paris", "Cairo", "Beirut", "Manila", "Hong Kong", "Toronto", "Dakar", "Delhi", "Kyiv", "Warsaw", "Prague", "Dublin", "Hamburg", "Los Angeles"]
+    var surpriseMe = function (arr) { //https://www.programiz.com/javascript/examples/get-random-item
+        const randomIndex = Math.floor(Math.random() * arr.length)
+        const randomCity = arr[randomIndex]
+        return randomCity;
+    }
+    const surpriseCity = surpriseMe(citiesArr)
+    console.log("Random city is: " + surpriseCity)
 
-  destination = surpriseCity;
-  var destURL =
-    "http://api.opentripmap.com/0.1/en/places/geoname?name=" +
-    destination +
-    "&apikey=" +
-    "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
+    destination = surpriseCity
+    var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
 
-  console.log(destination);
-  destinationData();
-});
+    console.log(destination)
+    destinationData()
+})
+
 
 // generate basic details for the city
-$("#submit-btn").on("click", function (e) {
-  //added id on submit button
-  e.preventDefault();
-  e.stopPropagation();
+$('#submit-btn').on('click', function (e) { //added id on submit button
+    e.preventDefault()
+    e.stopPropagation()
 
-  destination = $("#searchInput").val().trim();
-  destinationData();
-});
+    destination = $('#searchInput').val().trim()
+    destinationData()
+    storeData()
+})
 
+
+// saving search input to local storage
+function storeData() {
+    localStorage.setItem("destination" + [i], destination)
+    // persistData()
+}
+
+
+// repeating function to populate search results based on destination text input
 function destinationData() {
-  var destURL =
-    "http://api.opentripmap.com/0.1/en/places/geoname?name=" +
-    destination +
-    "&apikey=" +
-    "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
+    var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
+    $('#destination-Info').removeClass("hide")
 
-  $.ajax({
-    url: destURL,
-    method: "GET",
-  }).then(function (response) {
-    console.log(response);
-    //clears search input after submit
-    $("#searchInput").val("");
-    $("#chosen-city").empty();
-    $("#flag").empty();
-    $(".image").empty();
-    $(".info").empty();
+    $.ajax({
+        url: destURL,
+        method: "GET",
+    }).then(function (response) {
+        console.log(response)
 
-    // adds city to heading of results
-    $("#chosen-city").append(
-      destination.charAt(0).toUpperCase() + destination.slice(1)
-    );
-    loadImg(destination);
-    infos(destination);
-    initialData(response);
-    moreDetails(response);
-    flag(response);
-  });
+        //clears search input after submit
+        $('#searchInput').val('')
+        $('#chosen-city').empty()
+        $('#flag').empty()
+        $('.image').empty()
+        $('.info').empty()
+
+        // adds city to heading of results
+        $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
+        loadImg(destination)
+        infos(destination)
+        initialData(response)
+        moreDetails(response)
+        flag(response)
+        worldTime(destination)
+    })
 }
 
-// adds basic info to the page
+
+// adds basic info to the page 
 function initialData(response) {
-  // //adds timezone to facts
-  // var moment = require('moment-timezone')
-  var timezone = "Time Zone: " + response.timezone; //added response li and changed class to id
-  // // // $('#timezone').text(timezone)
+    // add popuation
+    $('#population').text("Population: " + response.population)
 
-  var time = moment().tz(timezone).format("h:mma"); //need to link to city input timezone
-  var date = moment().tz(timezone).format("Do MMM YYYY"); ///need to link to city input timezone
-  $("#date").text("It is now   " + time + " on the  " + date);
+
+    //adds country
+    $('#country').text("Country: " + response.country) // perhaps use openweather for more accuracy?
 }
 
+
+// timezone data  --> how can the results be modified to be more digestible?
+function worldTime(destination) {
+    var city = destination
+    $.ajax({
+        method: 'GET',
+        url: 'https://api.api-ninjas.com/v1/worldtime?city=' + city,
+        headers: { 'X-Api-Key': 'Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT' },
+        contentType: 'application/json',
+        success: function (result) {
+            console.log("Time")
+            console.log(result);
+            // adds time and date to facts section 
+            var time = result.hour + ":" + result.minute
+            var date = result.day + "/" + result.month + "/" + result.year
+            $('#date').text("It is now " + time + " on  " + date)
+
+            //adds timezone
+            $('#timezone').text("Time Zone: " + result.timezone)
+
+        },
+        error: function ajaxError(jqXHR) {
+            console.error('Error: ', jqXHR.responseText)
+        }
+    });
+}
+
+// links flag to country code 
 function flag(response) {
-  var countryCode = response.country.toLowerCase();
-  var flagURL = "https://flagcdn.com/h240/" + countryCode + ".png";
-  var flag = $("<img>").attr("src", flagURL);
-  $("#flag").append(flag);
+    var countryCode = response.country.toLowerCase()
+    var flagURL = "https://flagcdn.com/h240/" + countryCode + ".png" // perhaps use openweather countrycode for more accuracy?
+    var flag = $('<img>').attr("src", flagURL)
+    $('#flag').append(flag)
 }
 
-// uses basic info + input radius to generate search results
 
+// uses basic info + inputted radius to generate search results 
 function moreDetails(response) {
-  var lon = response.lon;
-  var lat = response.lat;
+    var lon = response.lon
+    var lat = response.lat
 
-  var filtersURL =
-    "https://api.opentripmap.com/0.1/en/places/radius?radius=" +
-    radius +
-    "&lon=" +
-    lon +
-    "&lat=" +
-    lat +
-    "&rate=3&format=json&limit=6&apikey=" +
-    apiKey;
+    var filtersURL = "https://api.opentripmap.com/0.1/en/places/radius?radius=" + radius + "&lon=" + lon + "&lat=" + lat + "&rate=3&format=json&limit=4&apikey=" + apiKey
 
-  $.ajax({
-    url: filtersURL,
-    method: "GET",
-  }).then(function (filterResults) {
-    pointsOfInterest(filterResults);
-  });
+    $.ajax({
+        url: filtersURL,
+        method: "GET",
+    }).then(function (filterResults) {
+        console.log(filterResults)
+
+        topAttractions(filterResults)
+    })
 }
 
 // points of interest start
@@ -170,9 +198,12 @@ function pointsOfInterest(filterResults) {
                   .html(data.wikipedia_extracts.html),
                 $("<p>")
                 //opentripmap code example for 
-                .attr("class", "card-text").innerHTML = `<p><a target="_blank" href="${data.otm}">Show more at OpenTripMap</a></p>`
+                .attr("class", "card-text").innerHTML = `<p><a target="_blank" href="${data.otm}">Show more at OpenTripMap</a></p>`,
                 // ($("<a>").attr("target",_blank).attr("href",wikipedia).text("See more at Wikipedia.com"))
-                
+                $("<p>")
+                //opentripmap code example for 
+                .attr("class", "card-text").innerHTML = `<p><a target="_blank" href="${data.wikipedia}">Show more at Wikipedia</a></p>`
+                // ($("<a>").attr("target",_blank).attr("href",wikipedia).text("See more at Wikipedia.com"))
               ])
             )
           )
