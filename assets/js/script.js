@@ -49,6 +49,7 @@ $('#random-btn').on('click', function (e) {
 
     console.log(destination)
     destinationData()
+    
 })
 
 
@@ -95,7 +96,10 @@ function destinationData() {
         initialData(response)
         moreDetails(response)
         flag(response)
-        worldTime(destination)
+        // worldTime(destination)
+        timezone()
+        airport()
+        displayForecast()
     })
 }
 
@@ -110,6 +114,57 @@ function initialData(response) {
     $('#country').text("Country: " + response.country) // perhaps use openweather for more accuracy?
 }
 
+//Lissa Timezone
+function timezone () {
+
+$.ajax({
+    method: 'GET',
+    url: 'https://api.api-ninjas.com/v1/worldtime?city=' + destination,
+    headers: { 'X-Api-Key': 'Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT'},
+    contentType: 'application/json',
+    success: function(result) {
+        var time = result.datetime.split(" ")[1] 
+        var day = result.day
+        var month = result.month
+        var year = result.year
+        $("#date").text("It is now " + time + " on the " + day + "/" + month + "/" + year +".")
+        $("#timezone").text("Timezone: " + result.timezone)
+
+    },
+    error: function ajaxError(jqXHR) {
+        console.error('Error: ', jqXHR.responseText);
+    }
+    })
+}
+
+//Lissa Airport
+function airport () {
+  const options = {
+      method: 'GET',
+      headers: {
+          'X-RapidAPI-Key': 'e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7',
+          'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
+      }
+  };
+  
+  fetch('https://travel-advisor.p.rapidapi.com/airports/search?query=' + destination, options)
+      .then(response => {
+          return response.json();
+      })
+      .then(function (result) {
+          for (let i = 0; i < result.length; i++) {
+              console.log(result)
+              var airport = result[1].display_name
+              console.log(airport)
+              // var airport1 = result[2].display_name
+              // console.log(airport1)
+              // var airport2 = result[3].display_name
+              // console.log(airport2)
+              $("#airport").text("Airport: " + airport) 
+          }
+      })
+  
+  }
 
 // timezone data  --> how can the results be modified to be more digestible?
 function worldTime(destination) {
@@ -136,6 +191,40 @@ function worldTime(destination) {
         }
     });
 }
+
+
+//Lissa Weather
+function displayForecast() {
+  var apiKey = "76dd56a7c869514402bbcfd7dbd7cbb7";
+  var forecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + destination + "&units=metric&appid=" + apiKey;
+  
+  
+  $.ajax({
+      url: forecast,
+      method: "GET",
+      }).then(function(response) { 
+         console.log(response)
+         $('#days').empty()
+         var weatherArray = response.list; 
+         for (var i = 0; i <weatherArray.length; i++) {
+          console.log(weatherArray[i]);
+          if (weatherArray[i].dt_txt.split(' ')[1] === '12:00:00') {
+               var cityMain = $('<div>');
+               cityMain.addClass('col-lg-2 col-md-6 mb-2 forecast-card>');
+               var date = $("<h5>").text(response.list[i].dt_txt.split(" ")[0]);
+               var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + weatherArray[i].weather[0].icon + '.png');
+               var minTemp = $('<p>').text('Min Temperature: ' + weatherArray[i].main.temp_min + '°C');  
+               var maxTemp = $('<p>').text('Max Temperature : ' + weatherArray[i].main.temp_max + '°C');                               
+               cityMain.append(date).append(image).append(minTemp).append(maxTemp)
+               
+               $('#days').append(cityMain);
+               
+      }
+   }
+
+  });
+};
+
 
 // links flag to country code 
 function flag(response) {
