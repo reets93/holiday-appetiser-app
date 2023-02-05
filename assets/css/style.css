@@ -62,10 +62,10 @@ section {
     justify-content: space-around;
 }
 
-.image {
+/* .image {
     display: inline-flex;
     margin: 0 auto;
-}
+} */
 
 .card {
     padding: 20px 30px;
@@ -84,3 +84,18 @@ section {
     margin-top: 4px;
     margin-bottom: 4px;
 }
+body {
+    margin-top: 10px;
+}
+
+img {
+    margin: auto;
+    padding: 10px;
+    display: block;
+    max-width: 250px;
+}
+
+a {
+    cursor: pointer;
+}
+
