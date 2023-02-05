@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="./assets/css/style.css">
+  <!-- Font Awesome CDN Link for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <title>Holiday Appetiser</title>
 </head>
 
@@ -37,75 +39,113 @@
   </div>
 
   <div id="destination-Info" class="hide container">
-  <div class="destination">
-    <h1 id="dest-header">We're going to .....</h1>
-    <h1 id="chosen-city"></h1>
-  </div>
+    <div class="destination">
+      <h1 id="dest-header">We're going to .....</h1>
+      <h1 id="chosen-city"></h1>
+    </div>
 
-   <!--5 Day Forecast-->
-   <div class = "row" id="days"></div>
-   
-  <!-- destination information -->
-  <section id="information" class="container">
-    <div class="row">
-      <div class="column" style="background-color:#aaa;">
-        <ul>
-          <li id="date"></li>
-          <li id="timezone"></li>
-          <li id="population"></li>
-          <li id="country"></li>
-          <li id="airport"></li>
-        </ul>
+    <!--5 Day Forecast-->
+    <div class="row" id="days"></div>
+
+    <!-- destination information -->
+    <section id="information" class="container">
+      <div class="row">
+        <div class="column" style="background-color:#aaa;">
+          <ul>
+            <li id="date"></li>
+            <li id="timezone"></li>
+            <li id="population"></li>
+            <li id="country"></li>
+            <li id="airport"></li>
+          </ul>
+        </div>
+
+        <div id="flag" class="column" style="background-color:#bbb;">
+        </div>
       </div>
 
-      <div id="flag" class="column" style="background-color:#bbb;">
+    </section>
+    </br>
+
+    <!-- image gallery section -->
+    <section class="image container"></section>
+    <!-- end image section -->
+
+    </br>
+
+    <!-- info section -->
+    <section id="cards" class="container">
+      <div class="card" style="width: 40rem; padding: 20px 30px">
+        <h5 id="info-title"></h5>
+        <div class="info"></div>
       </div>
+
+      <div class="translator">
+        <!-- Translater https://codepen.io/oussamasibari/pen/JjLLxxv -->
+        <div class="translator-container" style="width: 40rem">
+
+          <h5 style="color:#007bff; margin-bottom : 20px">Don't know the lingo! We've got covered</h5>
+          
+          <div class="translator-wrapper">
+            <div class="text-input">
+              <textarea spellcheck="false" class="textarea from-text" placeholder="Enter or paste your text"></textarea>
+              <div spellcheck="false" readonly disabled contenteditable="true" class="textarea to-text"
+                placeholder="Translation"></div>
+            </div>
+            <ul class="controls">
+              <li class="row from">
+                <div class="icons">
+                  <i id="from" class="fas fa-volume-up"></i>
+                  <i id="from" class="fas fa-copy"></i>
+                </div>
+                <select></select>
+              </li>
+              <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+              <li class="row to">
+                <select></select>
+                <div class="icons">
+                  <i id="to" class="fas fa-volume-up"></i>
+                  <i id="to" class="fas fa-copy"></i>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <button id="translateBtn">Translate Text</button>
+
+          <h6 style="margin-top : 20px">
+            <a target="_blank" style="color:#007bff;text-decoration:none"
+              href="https://rapidapi.com/sibaridev/api/rapid-translate-multi-traduction">rapidapi.com</a>
+          </h6>
+
+        </div>
+        <!-- https://codepen.io/oussamasibari/pen/JjLLxxv-->
+
+      </div>
+    </section>
+    <!-- end info section -->
+
+
+    <!-- top attractions in your area -->
+    <div id="attractions-container">
+      <h1 id="dest-header">Places you might find interesting...</h1>
+      <div class="row" id="top-attractions"></div>
     </div>
+    <!-- end top attractions  -->
 
-  </section>
-  </br>
+    <footer class="navbar navbar-light bg-light">
+      <span class="navbar-brand mb-0 h1">This is where social media icons will go!</span>
+    </footer>
 
-  <!-- image gallery section -->
-  <section class="image container"></section>
-  <!-- end image section -->
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="./assets/js/moment-timezone.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  </br>
-
-  <!-- info section -->
-  <section id="cards" class="container">
-    <div class="card" style="width: 40rem; padding: 20px 30px">
-      <h5 id="info-title"></h5>
-      <div class="info"></div>
-    </div>
-
-    <div class="card" style="width: 40rem">
-      <div class="translator">Translator</div>
-    </div>
-  </section>
-  <!-- end info section -->
-
-
-  <!-- top attractions in your area -->
-  <div id="attractions-container">
-    <h1 id="dest-header">Places you might find interesting...</h1>
-    <div class="row" id="top-attractions"></div>
-  </div>
-  <!-- end top attractions  -->
-
-  <footer class="navbar navbar-light bg-light">
-    <span class="navbar-brand mb-0 h1">This is where social media icons will go!</span>
-  </footer>
-
-  <!-- Moment.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-  <script src="./assets/js/moment-timezone.js"></script>
-  <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-  <!-- Will need to enter a different file for keys for deploying to github -->
-  <!-- <script src="./assets/js/public-keys.js"></script> -->
-  <!-- <script src="./assets/js/keys.js"></script> -->
-  <script src="./assets/js/script.js"></script>
+    <!-- Will need to enter a different file for keys for deploying to github -->
+    <!-- <script src="./assets/js/public-keys.js"></script> -->
+    <!-- <script src="./assets/js/keys.js"></script> -->
+    <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
