@@ -71,10 +71,11 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
   }
   })
   //modal  close function
-setTimeout(function(){
+  setTimeout(function(hideModal){
     $('#myModal').modal('hide');
     $('#myModal2').modal('hide');
 }, 4000);
+
 
 
 
@@ -133,6 +134,7 @@ function destinationData() {
       timezone()
       airport()
       displayForecast()
+      hideModal()
     }
   })
 }
