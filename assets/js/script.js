@@ -166,7 +166,7 @@ function airport() {
 
   fetch(
     "https://travel-advisor.p.rapidapi.com/airports/search?query=" +
-    destination,
+      destination,
     options
   )
     .then((response) => {
@@ -178,16 +178,17 @@ function airport() {
       if (result.length === 1) {
         var allAirports = result[0].display_name;
         console.log("City only has one airport: " + allAirports);
-        $("#airport").text("Airport: " + allAirports)
+        $("#airport").text("City only has one airport: " + allAirports)
         return allAirports;
       } else {
         var displayName = result[1].display_name;
         console.log("City's main airport is: " + displayName);
-        $("#airport").text("Airport: " + displayName)
+        $("#airport").text("City's main airport is: " + displayName)
         return displayName;
       }
+  
     });
-}
+  };
 
 //Lissa Weather
 function displayForecast() {
