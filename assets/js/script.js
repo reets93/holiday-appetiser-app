@@ -279,7 +279,7 @@ function loadImg() {
   const url =
     "https://api.unsplash.com/search/photos?query=" +
     destination +
-    "&order_by=relevant&orientation=landscape&client_id=" +
+    "&order_by=relevant&orientation=landscape&per_page=3&client_id=" +
     unsplashKey;
   fetch(url)
     .then((response) => {
