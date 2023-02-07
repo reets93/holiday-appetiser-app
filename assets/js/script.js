@@ -49,21 +49,34 @@ $('#random-btn').on('click', function (e) {
 
   console.log(destination)
   destinationData()
+});
 
-})
+
 
 // generate basic details for the city
 $('#submit-btn').on('click', function (e) { //added id on submit button
+   //button clicked is working - just not bringing up modal
+      
   e.preventDefault()
   e.stopPropagation()
   destination = $('#searchInput').val().trim()
+    // $('#submit-btn').click(function(){
+      console.log("Button clicked")
   if (!destination) {// check the user entered a destination
-    alert("You need to enter a city or press the Surprise Me button")
+    // alert("You need to enter a city or press the Surprise Me button")
+    $('#myModal').modal('show')
   } else {
     destinationData()
     storeData()
   }
-})
+  })
+  //modal  close function
+setTimeout(function(){
+    $('#myModal').modal('hide');
+}, 4000);
+
+
+
 
 // saving search input to local storage
 function storeData() {
@@ -71,11 +84,20 @@ function storeData() {
   // persistData()
 }
 
+// //modal
+// $(document).ready(function(){
+// 	$('#submit-btn').click(function(){
+//     console.log("Button clicked") //button clicked is working - just not bringing up modal
+// 		// $('#myModal').modal('show')
+// 	});
+// });
+
 // repeating function to populate search results based on destination text input
 function destinationData() {
   var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
   $('#destination-Info').removeClass("hide")
   $('<footer>').removeClass()
+  
   $.ajax({
     url: destURL,
     method: "GET",
@@ -83,7 +105,8 @@ function destinationData() {
     console.log(response)
     if (response.partial_match || response.status === "NOT_FOUND") {
       // destination not found or partially matched
-      alert("destination " + destination + " not found");
+      // alert("destination " + destination + " not found");
+      $('#myModal2').modal('show')
     } else {
       //clears search input after submit
       $('#searchInput').val('')
