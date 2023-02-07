@@ -6,7 +6,7 @@ var destination;
 // persist local storage 
 // if nothing in local storage, previously searched is hidden
 if (localStorage.length == 0) {
-  $('#searchHistory').addClass("hide") // check this code
+  $('#searchHistory').addClass("hide")
 }
 
 // displays searched cities from previous sessions (won't update / populate straight away)
@@ -19,6 +19,12 @@ function persistData() {
     $('#hist-buttons').append(historyBtn)
   }
 }
+
+$('#clear-search').on('click', function(e){ //clears the whole page/refreshes... 
+  localStorage.clear()
+e.stopPropagation()
+// e.preventDefault()
+})
 
 // link search history button to search
 $(".history-btn").on('click', function (e) {
@@ -35,7 +41,7 @@ $('#random-btn').on('click', function (e) {
   e.preventDefault()
   e.stopPropagation()
 
-  var citiesArr = ["Mexico City", "Belgrade", "Lisbon", "Buenos Aires", "Milan", "Shanghai", "Paris", "Beirut", "Manila", "Toronto", "Kyiv", "Prague", "Dublin", "Hamburg", "Los Angeles"]
+  var citiesArr = ["Mexico City", "Belgrade", "Lisbon", "Buenos Aires", "Milan", "Paris", "Beirut", "Manila", "Toronto", "Kyiv", "Prague", "Dublin", "Hamburg", "Los Angeles"]
   var surpriseMe = function (arr) { //https://www.programiz.com/javascript/examples/get-random-item
     const randomIndex = Math.floor(Math.random() * arr.length)
     const randomCity = arr[randomIndex]
@@ -50,7 +56,6 @@ $('#random-btn').on('click', function (e) {
   console.log(destination)
   destinationData()
 });
-
 
 
 // generate basic details for the city
@@ -129,7 +134,7 @@ function destinationData() {
       $('#population').text("Population: " + response.population)
 
       //adds country
-      $('#country').text("Country: " + response.country) // perhaps use openweather for more accuracy?
+      $('#country').text("Country: " + response.country)
 
       loadImg(destination)
       infos(destination)
@@ -216,7 +221,7 @@ function displayForecast() {
       console.log(weatherArray[i]);
       if (weatherArray[i].dt_txt.split(' ')[1] === '12:00:00') {
         var cityMain = $('<div>');
-        cityMain.addClass('col-lg-2 col-md-6 mb-2 forecast-card>');
+        cityMain.addClass('col-lg-3 col-md-6 mb-2 forecast-card');
         var date = $("<h6>").text(response.list[i].dt_txt.split(" ")[0]);
         var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + weatherArray[i].weather[0].icon + '.png');
         var minTemp = $('<p>').text('Min Temperature: ' + Math.floor(weatherArray[i].main.temp_min) + '°C');

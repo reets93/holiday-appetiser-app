@@ -29,76 +29,68 @@
           <label class="text-centre" for="searchInput">Which city do you want to go to?</label>
           <input type="city" class="form-control wide" id="searchInput" aria-describedby="searchInput">
         </div>
-        <button type="submit" id="submit-btn" class="btn btn-primary" >Search</button>
+        <button type="submit" id="submit-btn" class="btn btn-primary">Search</button>
         <button type="random" id="random-btn" class="btn btn-outline-primary">Surprise Me</button>
 
-<!--Start Modals-->
-<!--Modal 1-->
-<div class = "container">
-  <div class = "row">
-    <div class = "col-md-12">
+        <!--Start Modals-->
+        <!--Modal 1-->
+        <!-- <div class="container">
+          <div class="row">
+            <div class="col-md-12">
 
-      <div class = "modal fade" id = "myModal">
-        <div class = "modal-dialog modal-md">
-          <div class="modal-content">
-          <div class = "modal-header">
-            <h5>Have you forgotten something?</h5>
-         
-          <div class = "modal-body">
-             You need to enter a city or press the Surprise Me button.
-             <div class = "modal-footer">
-              <input class = "btn btn-primary" data-dismiss="modal" value="Close">
-              <!-- <button class="btn-primary" data-dismiss="modal" id="closeBtn">Close</button> -->
+              <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5>Have you forgotten something?</h5>
 
-             </div>
+                      <div class="modal-body">
+                        You need to enter a city or press the Surprise Me button.
+                        <div class="modal-footer">
+                          <input class="btn btn-primary" data-dismiss="modal" value="Close"> -->
+                          <!-- <button class="btn-primary" data-dismiss="modal" id="closeBtn">Close</button> -->
+
+                        <!-- </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
+          </div> -->
 
-<!--Start Modals-->
-<!--Modal 2-->
-<div class = "container">
-  <div class = "row">
-    <div class = "col-md-12">
+          <!--Start Modals-->
+          <!--Modal 2-->
+          <!-- <div class="container">
+            <div class="row">
+              <div class="col-md-12">
 
-      <div class = "modal" id = "myModal2">
-        <div class = "modal-dialog modal-sm">
-          <div class="modal-content">
-          <div class = "modal-header">
-            <h5>Whoops!</h5>
-          </div>
-          <div class = "modal-body">
-             This destination has not been found. Please check your spelling and try again.
-             <div class = "modal-footer">
-              <button id="closeBtn" class= "close" data-dismiss="modal" >Close</button>
-        </div>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="modal" id="myModal2">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5>Whoops!</h5>
+                      </div>
+                      <div class="modal-body">
+                        This destination has not been found. Please check your spelling and try again.
+                        <div class="modal-footer">
+                          <button id="closeBtn" class="close" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
 
-        <!-- Previously searched destinations -->
-        <div id="searchHistory">
-          <p>You've previously searched for...</p>
-          <div id="hist-buttons"></div>
-        </div>
+              <!-- Previously searched destinations -->
+              <div id="searchHistory">
+                <p>You've previously searched for...</p>
+                <div id="hist-buttons"></div>
+                <a href="" id="clear-search">Clear recent searches</a>
+              </div>
       </form>
     </div>
   </div>
-
-  <!-- Previously searched destinations
-  <section id="searchHistory">
-    <div class="container">
-      <p>You've previously searched for...</p>
-      <div id="hist-buttons"></div>
-    </div>
-  </section> -->
-
 
   <div id="destination-Info" class="hide">
     <h1 id="chosen-city" class="destination">
@@ -107,11 +99,11 @@
     <!--5 Day Forecast-->
     <div class="container">
       <div class="row" id="days">
-        <div id="days0" class="column col-lg-3 col-md-6 col-sm-12"></div>
-        <div id="days1" class="column col-lg-3 col-md-6 col-sm-12"></div>
-        <div id="days2" class="column col-lg-3 col-md-6 col-sm-12"></div>
-        <div id="days3" class="column col-lg-3 col-md-6 col-sm-12"></div>
-        <div id="days4" class="column col-lg-3 col-md-6 col-sm-12"></div>
+        <div id="days0" class="column col-lg-3 col-md-6"></div>
+        <div id="days1" class="column col-lg-3 col-md-6"></div>
+        <div id="days2" class="column col-lg-3 col-md-6"></div>
+        <div id="days3" class="column col-lg-3 col-md-6"></div>
+        <div id="days4" class="column col-lg-3 col-md-6"></div>
       </div>
     </div>
 
@@ -149,7 +141,7 @@
     <div id="cards" class="container">
       <div class="row">
         <div class="column col-lg-6 col-md-12">
-          <div class="card" style="width: 40rem; padding: 20px 30px">
+          <div class="card">
             <h5 id="info-title"></h5>
             <div class="info"></div>
           </div>
@@ -158,7 +150,7 @@
         <div class="column col-lg-6 col-md-12">
           <div class="translator container">
             <!-- Translater https://codepen.io/oussamasibari/pen/JjLLxxv -->
-            <div class="translator-container" style="width: 40rem">
+            <div class="translator-container">
 
               <h5 style="color: rgb(24, 140, 140); margin-bottom : 20px">Don't know the lingo? We've got you covered
               </h5>
@@ -223,13 +215,15 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <script src="./assets/js/moment-timezone.js"></script> -->
   <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" 
-  integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" 
-  crossorigin="anonymous"></script>  
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+    integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+    crossorigin="anonymous"></script>
 
   <!-- Will need to enter a different file for keys for deploying to github -->
   <!-- <script src="./assets/js/public-keys.js"></script> -->
