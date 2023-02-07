@@ -21,10 +21,12 @@ function persistData() {
   }
 }
 
-$('#clear-search').on('click', function(e){ //clears the whole page/refreshes... 
+$('#clear-search').on('click', function (e) { //clears the whole page/refreshes... 
   localStorage.clear()
-e.stopPropagation()
-// e.preventDefault()
+  e.stopPropagation()  
+  e.preventDefault()
+  $('#hist-buttons').empty()
+  $('#searchHistory').addClass('hide')
 })
 
 // link search history button to search
@@ -61,14 +63,14 @@ $('#random-btn').on('click', function (e) {
 
 // generate basic details for the city
 $('#submit-btn').on('click', function (e) { //added id on submit button
-   //button clicked is working - just not bringing up modal
-      
+  //button clicked is working - just not bringing up modal
+
   e.preventDefault()
   e.stopPropagation()
 
   destination = $('#searchInput').val().trim()
-    // $('#submit-btn').click(function(){
-      console.log("Button clicked")
+  // $('#submit-btn').click(function(){
+  console.log("Button clicked")
   if (!destination) {// check the user entered a destination
     // alert("You need to enter a city or press the Surprise Me button")
     $('#myModal').modal('show')
@@ -76,11 +78,11 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
     destinationData()
     storeData()
   }
-  })
+})
 
 // saving search input to local storage
 function storeData() {
-  localStorage.setItem("destination" + [i], destination)
+  localStorage.setItem("destination"+[i], destination)
   // persistData()
 }
 
@@ -88,7 +90,7 @@ function storeData() {
 function destinationData() {
   var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
   $('#destination-Info').removeClass("hide")
-  
+
   $.ajax({
     url: destURL,
     method: "GET",
@@ -124,7 +126,7 @@ function destinationData() {
       timezone()
       airport()
       displayForecast()
-    
+
     }
   })
 }
@@ -164,7 +166,7 @@ function airport() {
 
   fetch(
     "https://travel-advisor.p.rapidapi.com/airports/search?query=" +
-      destination,
+    destination,
     options
   )
     .then((response) => {
@@ -210,8 +212,9 @@ function displayForecast() {
         var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + weatherArray[i].weather[0].icon + '.png');
         var minTemp = $('<p>').text('Min Temperature: ' + Math.floor(weatherArray[i].main.temp_min) + '°C');
         var maxTemp = $('<p>').text('Temp: ' + Math.floor(weatherArray[i].main.temp_max) + '°C');
-        // cityMain.append(date).append(image).append(minTemp).append(maxTemp)
-        cityMain.append(image).append(date).append(maxTemp)
+        var dayOfWeek = moment(response.list[i].dt_txt.split(" ")[0]).format("dddd")
+        // cityMain.append(image).append(dayOfWeek).append(date).append(maxTemp)
+        cityMain.append(image).append(dayOfWeek).append(maxTemp)
 
         $('#days').append(cityMain);
 
