@@ -3,6 +3,7 @@ var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
 var radius = "15000" //15km radius 
 var destination;
 
+
 // persist local storage 
 // if nothing in local storage, previously searched is hidden
 if (localStorage.length == 0) {
@@ -15,7 +16,7 @@ function persistData() {
   for (i = 0; i < localStorage.length; i++) {
     var historyBtn = $('<button>').addClass("history-btn").addClass("btn").addClass("btn-sm").addClass("btn-outline-primary").css({ border: "#f6f6f6", margin: "5px" })
     var histText = localStorage.getItem("destination" + [i])
-    historyBtn.text(histText)
+    historyBtn.text(histText).addClass("text-capitalize")
     $('#hist-buttons').append(historyBtn)
   }
 }
@@ -64,6 +65,7 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
       
   e.preventDefault()
   e.stopPropagation()
+
   destination = $('#searchInput').val().trim()
     // $('#submit-btn').click(function(){
       console.log("Button clicked")
@@ -86,7 +88,6 @@ function storeData() {
 function destinationData() {
   var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
   $('#destination-Info').removeClass("hide")
-  $('<footer>').removeClass()
   
   $.ajax({
     url: destURL,
@@ -106,8 +107,9 @@ function destinationData() {
       $('.info').empty()
       $('#glimpse').empty()
       // adds city to heading of results
-      $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
-      $('#glimpse').append("A glimpse of " + destination)
+      // $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
+      $('#chosen-city').append(destination).addClass("text-capitalize")
+      $('#glimpse').append("A glimpse of " + destination).addClass("text-capitalize")
 
       // add popuation
       $('#population').text("Population: " + response.population)
@@ -150,37 +152,40 @@ function timezone() {
   })
 }
 
-
 //Lissa Airport
 function airport() {
   const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'X-RapidAPI-Key': 'e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7',
-      'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
-    }
+      "X-RapidAPI-Key": "e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7",
+      "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
+    },
   };
 
-  fetch('https://travel-advisor.p.rapidapi.com/airports/search?query=' + destination, options)
-    .then(response => {
+  fetch(
+    "https://travel-advisor.p.rapidapi.com/airports/search?query=" +
+      destination,
+    options
+  )
+    .then((response) => {
       return response.json();
     })
     .then(function (result) {
-      for (let i = 0; i < result.length; i++) {
-        console.log(result)
-        var airport = result[1].display_name
-        console.log(airport)
-        // var airport1 = result[2].display_name
-        // console.log(airport1)
-        // var airport2 = result[3].display_name
-        // console.log(airport2)
-        $("#airport").text("Airport: " + airport)
+      console.log(result);
+
+      if (result.length === 1) {
+        var allAirports = result[0].display_name;
+        console.log("City only has one airport: " + allAirports);
+        $("#airport").text("Airport: " + allAirports)
+        return allAirports;
+      } else {
+        var displayName = result[1].display_name;
+        console.log("City's main airport is: " + displayName);
+        $("#airport").text("Airport: " + displayName)
+        return displayName;
       }
-    })
-
+    });
 }
-
-
 
 //Lissa Weather
 function displayForecast() {
@@ -221,7 +226,7 @@ function displayForecast() {
 function flag(response) {
   var countryCode = response.country.toLowerCase()
   var flagURL = "https://flagcdn.com/w320/" + countryCode + ".png" // perhaps use openweather countrycode for more accuracy?
-  var flag = $('<img>').attr("src", flagURL).css({ border: ".05px solid #333333" })
+  var flag = $('<img>').attr("src", flagURL).css({ border: ".05px solid #333333" }).addClass("flagImg")
   $('#flag').append(flag)
 }
 
@@ -323,7 +328,7 @@ function infos() {
     .then((data) => {
       let result = Object.values(data.query.pages);
       console.log(result[0].extract);
-      $('#info-title').text("Get to know " + destination.charAt(0).toUpperCase() + destination.slice(1))
+      $('#info-title').text("Get to know " + destination).addClass("text-capitalize")
       $(".info").append($("<p>").text(result[0].extract));
     });
 }

@@ -13,7 +13,7 @@ a {
   color: #333 !important;
   text-decoration: underline;
   font-size: 8px;
-  text-align:right;
+  text-align: right;
 }
 
 h4 {
@@ -98,11 +98,11 @@ form {
 }
 
 #days {
-  padding-top:20px;
+  padding-top: 20px;
   justify-content: center;
   border-radius: 4px;
   background-color: var(--light-bg);
-  border: .5px solid rgba(0,0,0,.125);
+  border: .5px solid rgba(0, 0, 0, .125);
 }
 
 
@@ -117,7 +117,7 @@ form {
 }
 
 #image-section {
-  background-color:var(--btn-outline);
+  background-color: var(--btn-outline);
   padding: 20px;
 }
 
@@ -127,7 +127,7 @@ form {
 }
 
 #chosen-city {
-  font-size: 60px;
+  font-size: 56px;
   color: #fff;
   background-color: var(--btn-outline);
   padding-top: 2rem;
@@ -157,8 +157,8 @@ section {
 
 @media (min-width: 576px) {
   .container {
-  max-width: 400px;
-}
+    max-width: 400px;
+  }
 }
 
 #information {
@@ -169,28 +169,29 @@ section {
 }
 
 #facts {
-display: grid;
-align-content: center;
+  display: grid;
+  align-content: center;
 }
 
-#flag{
-display: grid;
-justify-content: center;
+#flag {
+  display: grid;
+  justify-content: center;
 }
 
 .column {
-  width: 500px;
+  width: auto;
   height: auto;
   margin-top: 5px;
+  padding-right: 3rem;
 }
 
 .row {
   justify-content: space-around;
 }
 
- .image {
+.image {
   display: inline-flex;
-  display:grid;
+  display: grid;
   flex-wrap: wrap;
   grid-template-columns: 2fr 2fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -199,15 +200,24 @@ justify-content: center;
   margin: 2rem 0;
   justify-content: center;
   align-content: center;
-} 
+}
+
+.flagImg {
+  max-width: 100%;
+  margin-left: 1rem;
+}
+
+img {
+  max-width:100%
+}
 
 .poi-card img {
   max-height: 260px;
 }
 
-.poi-card{
+.poi-card {
   margin: 1rem;
-  height: 550px;
+  height: 570px;
   position: relative;
   display: -ms-flexbox;
   display: flex;
@@ -217,10 +227,15 @@ justify-content: center;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
   border-radius: .25rem;
 }
 
+@media (min-width: 576px) {
+  .poi-card {
+    height: auto !important;
+  }
+}
 
 .card {
   padding: 20px 30px;
@@ -271,7 +286,7 @@ footer {
   background: #fff;
   border-radius: 7px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.01);
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, .125);
 }
 
 
