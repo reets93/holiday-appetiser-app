@@ -73,6 +73,7 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
   //modal  close function
 setTimeout(function(){
     $('#myModal').modal('hide');
+    $('#myModal2').modal('hide');
 }, 4000);
 
 
