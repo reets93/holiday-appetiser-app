@@ -76,16 +76,16 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
   }
   })
 //   //modal  close function
-//   setTimeout(function(hideModal){
-//     $('#myModal').modal('hide');
-//     $('#myModal2').modal('hide');
-// }, 4000);
+  setTimeout(function(hideModal){
+    $('#myModal').modal('hide');
+    $('#myModal2').modal('hide');
+}, 4000);
 
-$("#closeBtn").click(function(){
-  console.log("close button")
-  $("#myModal").modal('hide');
-  $("#myModal2").modal('hide');
-})
+// $("#closeBtn").click(function(){
+//   console.log("close button")
+//   $("#myModal").modal('hide');
+//   $("#myModal2").modal('hide');
+// })
 
 
 

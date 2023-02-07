@@ -37,7 +37,10 @@ The following websites were used to support this project:
 - https://flagpedia.net/
 - https://getbootstrap.com/docs/4.6/components/modal/
 
-
+## Colloborators
+-Rita
+-Kamel
+-Lissa
 
 
 ## License
