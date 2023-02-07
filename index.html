@@ -39,13 +39,19 @@
     <div class = "col-md-12">
 
       <div class = "modal fade" id = "myModal">
-        <div class = "modal-dialog modal-sm">
+        <div class = "modal-dialog modal-md">
           <div class="modal-content">
           <div class = "modal-header">
-            <h5>It looks like you have forgotten something!</h5>
-          </div>
+            <h5>Have you forgotten something?</h5>
+         
           <div class = "modal-body">
              You need to enter a city or press the Surprise Me button.
+             <div class = "modal-footer">
+              <input class = "btn btn-primary" data-dismiss="modal" value="Close">
+              <!-- <button class="btn-primary" data-dismiss="modal" id="closeBtn">Close</button> -->
+
+             </div>
+            </div>
         </div>
       </div>
       </div>
@@ -67,6 +73,8 @@
           </div>
           <div class = "modal-body">
              This destination has not been found. Please check your spelling and try again.
+             <div class = "modal-footer">
+              <button id="closeBtn" class= "close" data-dismiss="modal" >Close</button>
         </div>
       </div>
       </div>
