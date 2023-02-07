@@ -6,221 +6,198 @@ var destination;
 // persist local storage 
 // if nothing in local storage, previously searched is hidden
 if (localStorage.length == 0) {
-    $('#searchHistory').addClass("hide") // check this code
+  $('#searchHistory').addClass("hide") // check this code
 }
 
 // displays searched cities from previous sessions (won't update / populate straight away)
 persistData()
 function persistData() {
-    for (i = 0; i < localStorage.length; i++) {
-        var historyBtn = $('<button>').addClass("history-btn").addClass("btn").addClass("btn-outline-primary").css({ border: "#f6f6f6", margin: "5px", padding: "4px" })
-        var histText = localStorage.getItem("destination" + [i])
-        historyBtn.text(histText)
-        $('#hist-buttons').append(historyBtn)
-    }
+  for (i = 0; i < localStorage.length; i++) {
+    var historyBtn = $('<button>').addClass("history-btn").addClass("btn").addClass("btn-sm").addClass("btn-outline-primary").css({ border: "#f6f6f6", margin: "5px" })
+    var histText = localStorage.getItem("destination" + [i])
+    historyBtn.text(histText)
+    $('#hist-buttons').append(historyBtn)
+  }
 }
 
 // link search history button to search
 $(".history-btn").on('click', function (e) {
-    e.preventDefault()
-    e.stopPropagation()
-    var content = $(e.target).text()
-    destination = content
-    console.log("hist-btn:" + destination)
-    destinationData()
+  e.preventDefault()
+  e.stopPropagation()
+  var content = $(e.target).text()
+  destination = content
+  console.log("hist-btn:" + destination)
+  destinationData()
 })
 
 // generate random city from list of cities
 $('#random-btn').on('click', function (e) {
-    e.preventDefault()
-    e.stopPropagation()
+  e.preventDefault()
+  e.stopPropagation()
 
-    var citiesArr = ["Mexico City", "Belgrade", "Lisbon", "Buenos Aires", "Milan", "Shanghai", "Beijing", "Paris", "Cairo", "Beirut", "Manila", "Hong Kong", "Toronto", "Dakar", "Delhi", "Kyiv", "Warsaw", "Prague", "Dublin", "Hamburg", "Los Angeles"]
-    var surpriseMe = function (arr) { //https://www.programiz.com/javascript/examples/get-random-item
-        const randomIndex = Math.floor(Math.random() * arr.length)
-        const randomCity = arr[randomIndex]
-        return randomCity;
-    }
-    const surpriseCity = surpriseMe(citiesArr)
-    console.log("Random city is: " + surpriseCity)
+  var citiesArr = ["Mexico City", "Belgrade", "Lisbon", "Buenos Aires", "Milan", "Shanghai", "Paris", "Beirut", "Manila", "Toronto", "Kyiv", "Prague", "Dublin", "Hamburg", "Los Angeles"]
+  var surpriseMe = function (arr) { //https://www.programiz.com/javascript/examples/get-random-item
+    const randomIndex = Math.floor(Math.random() * arr.length)
+    const randomCity = arr[randomIndex]
+    return randomCity;
+  }
+  const surpriseCity = surpriseMe(citiesArr)
+  console.log("Random city is: " + surpriseCity)
 
-    destination = surpriseCity
-    var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
+  destination = surpriseCity
+  var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
 
-    console.log(destination)
-    destinationData()
-    
+  console.log(destination)
+  destinationData()
+
 })
-
 
 // generate basic details for the city
 $('#submit-btn').on('click', function (e) { //added id on submit button
-    e.preventDefault()
-    e.stopPropagation()
-
-    destination = $('#searchInput').val().trim()
+  e.preventDefault()
+  e.stopPropagation()
+  destination = $('#searchInput').val().trim()
+  if (!destination) {// check the user entered a destination
+    alert("You need to enter a city or press the Surprise Me button")
+  } else {
     destinationData()
     storeData()
+  }
 })
-
 
 // saving search input to local storage
 function storeData() {
-    localStorage.setItem("destination" + [i], destination)
-    // persistData()
+  localStorage.setItem("destination" + [i], destination)
+  // persistData()
 }
-
 
 // repeating function to populate search results based on destination text input
 function destinationData() {
-    var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
-    $('#destination-Info').removeClass("hide")
+  var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
+  $('#destination-Info').removeClass("hide")
+  $('<footer>').removeClass()
+  $.ajax({
+    url: destURL,
+    method: "GET",
+  }).then(function (response) {
+    console.log(response)
+    if (response.partial_match || response.status === "NOT_FOUND") {
+      // destination not found or partially matched
+      alert("destination " + destination + " not found");
+    } else {
+      //clears search input after submit
+      $('#searchInput').val('')
+      $('#chosen-city').empty()
+      $('#flag').empty()
+      $('.image').empty()
+      $('.info').empty()
+      $('#glimpse').empty()
+      // adds city to heading of results
+      $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
+      $('#glimpse').append("A glimpse of " + destination)
 
-    $.ajax({
-        url: destURL,
-        method: "GET",
-    }).then(function (response) {
-        console.log(response)
+      // add popuation
+      $('#population').text("Population: " + response.population)
 
-        //clears search input after submit
-        $('#searchInput').val('')
-        $('#chosen-city').empty()
-        $('#flag').empty()
-        $('.image').empty()
-        $('.info').empty()
+      //adds country
+      $('#country').text("Country: " + response.country) // perhaps use openweather for more accuracy?
 
-        // adds city to heading of results
-        $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
-        loadImg(destination)
-        infos(destination)
-        initialData(response)
-        moreDetails(response)
-        flag(response)
-        // worldTime(destination)
-        timezone()
-        airport()
-        displayForecast()
-    })
+      loadImg(destination)
+      infos(destination)
+      moreDetails(response)
+      flag(response)
+      timezone()
+      airport()
+      displayForecast()
+    }
+  })
 }
 
 
-// adds basic info to the page 
-function initialData(response) {
-    // add popuation
-    $('#population').text("Population: " + response.population)
-
-
-    //adds country
-    $('#country').text("Country: " + response.country) // perhaps use openweather for more accuracy?
-}
-
-//Lissa Timezone
-function timezone () {
-
-$.ajax({
+//Lissa Timezone function 
+function timezone() {
+  $.ajax({
     method: 'GET',
     url: 'https://api.api-ninjas.com/v1/worldtime?city=' + destination,
-    headers: { 'X-Api-Key': 'Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT'},
+    headers: { 'X-Api-Key': 'Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT' },
     contentType: 'application/json',
-    success: function(result) {
-        var time = result.datetime.split(" ")[1] 
-        var day = result.day
-        var month = result.month
-        var year = result.year
-        $("#date").text("It is now " + time + " on the " + day + "/" + month + "/" + year +".")
-        $("#timezone").text("Timezone: " + result.timezone)
+    success: function (result) {
+      var time = result.datetime.split(" ")[1]
+      var day = result.day
+      var month = result.month
+      var year = result.year
+      $("#date").text("It is now " + time + " on the " + day + "/" + month + "/" + year + ".")
+      $("#timezone").text("Timezone: " + result.timezone)
 
     },
     error: function ajaxError(jqXHR) {
-        console.error('Error: ', jqXHR.responseText);
+      // console.error('Error: ', jqXHR.responseText);
     }
-    })
+  })
 }
+
 
 //Lissa Airport
-function airport () {
+function airport() {
   const options = {
-      method: 'GET',
-      headers: {
-          'X-RapidAPI-Key': 'e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7',
-          'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
-      }
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': 'e282bb636cmsh1e6a309997edbd9p185dc8jsnc44538e21ea7',
+      'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
+    }
   };
-  
+
   fetch('https://travel-advisor.p.rapidapi.com/airports/search?query=' + destination, options)
-      .then(response => {
-          return response.json();
-      })
-      .then(function (result) {
-          for (let i = 0; i < result.length; i++) {
-              console.log(result)
-              var airport = result[1].display_name
-              console.log(airport)
-              // var airport1 = result[2].display_name
-              // console.log(airport1)
-              // var airport2 = result[3].display_name
-              // console.log(airport2)
-              $("#airport").text("Airport: " + airport) 
-          }
-      })
-  
-  }
+    .then(response => {
+      return response.json();
+    })
+    .then(function (result) {
+      for (let i = 0; i < result.length; i++) {
+        console.log(result)
+        var airport = result[1].display_name
+        console.log(airport)
+        // var airport1 = result[2].display_name
+        // console.log(airport1)
+        // var airport2 = result[3].display_name
+        // console.log(airport2)
+        $("#airport").text("Airport: " + airport)
+      }
+    })
 
-// timezone data  --> how can the results be modified to be more digestible?
-function worldTime(destination) {
-    var city = destination
-    $.ajax({
-        method: 'GET',
-        url: 'https://api.api-ninjas.com/v1/worldtime?city=' + city,
-        headers: { 'X-Api-Key': 'Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT' },
-        contentType: 'application/json',
-        success: function (result) {
-            console.log("Time")
-            console.log(result);
-            // adds time and date to facts section 
-            var time = result.hour + ":" + result.minute
-            var date = result.day + "/" + result.month + "/" + result.year
-            $('#date').text("It is now " + time + " on  " + date)
-
-            //adds timezone
-            $('#timezone').text("Time Zone: " + result.timezone)
-
-        },
-        error: function ajaxError(jqXHR) {
-            console.error('Error: ', jqXHR.responseText)
-        }
-    });
 }
+
 
 
 //Lissa Weather
 function displayForecast() {
   var apiKey = "76dd56a7c869514402bbcfd7dbd7cbb7";
   var forecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + destination + "&units=metric&appid=" + apiKey;
-  
-  
+
+
   $.ajax({
-      url: forecast,
-      method: "GET",
-      }).then(function(response) { 
-         console.log(response)
-         $('#days').empty()
-         var weatherArray = response.list; 
-         for (var i = 0; i <weatherArray.length; i++) {
-          console.log(weatherArray[i]);
-          if (weatherArray[i].dt_txt.split(' ')[1] === '12:00:00') {
-               var cityMain = $('<div>');
-               cityMain.addClass('col-lg-2 col-md-6 mb-2 forecast-card>');
-               var date = $("<h5>").text(response.list[i].dt_txt.split(" ")[0]);
-               var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + weatherArray[i].weather[0].icon + '.png');
-               var minTemp = $('<p>').text('Min Temperature: ' + weatherArray[i].main.temp_min + '°C');  
-               var maxTemp = $('<p>').text('Max Temperature : ' + weatherArray[i].main.temp_max + '°C');                               
-               cityMain.append(date).append(image).append(minTemp).append(maxTemp)
-               
-               $('#days').append(cityMain);
-               
+    url: forecast,
+    method: "GET",
+  }).then(function (response) {
+    console.log(response)
+    $('#days').empty()
+    var weatherArray = response.list;
+    for (var i = 0; i < weatherArray.length; i++) {
+      delete weatherArray[35]; // should remove last 5 results 
+      console.log(weatherArray[i]);
+      if (weatherArray[i].dt_txt.split(' ')[1] === '12:00:00') {
+        var cityMain = $('<div>');
+        cityMain.addClass('col-lg-2 col-md-6 mb-2 forecast-card>');
+        var date = $("<h6>").text(response.list[i].dt_txt.split(" ")[0]);
+        var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + weatherArray[i].weather[0].icon + '.png');
+        var minTemp = $('<p>').text('Min Temperature: ' + Math.floor(weatherArray[i].main.temp_min) + '°C');
+        var maxTemp = $('<p>').text('Temp: ' + Math.floor(weatherArray[i].main.temp_max) + '°C');
+        // cityMain.append(date).append(image).append(minTemp).append(maxTemp)
+        cityMain.append(image).append(date).append(maxTemp)
+
+        $('#days').append(cityMain);
+
       }
-   }
+    }
 
   });
 };
@@ -228,28 +205,28 @@ function displayForecast() {
 
 // links flag to country code 
 function flag(response) {
-    var countryCode = response.country.toLowerCase()
-    var flagURL = "https://flagcdn.com/h240/" + countryCode + ".png" // perhaps use openweather countrycode for more accuracy?
-    var flag = $('<img>').attr("src", flagURL)
-    $('#flag').append(flag)
+  var countryCode = response.country.toLowerCase()
+  var flagURL = "https://flagcdn.com/w320/" + countryCode + ".png" // perhaps use openweather countrycode for more accuracy?
+  var flag = $('<img>').attr("src", flagURL).css({ border: ".05px solid #333333" })
+  $('#flag').append(flag)
 }
 
 
 // uses basic info + inputted radius to generate search results 
 function moreDetails(response) {
-    var lon = response.lon
-    var lat = response.lat
+  var lon = response.lon
+  var lat = response.lat
 
-    var filtersURL = "https://api.opentripmap.com/0.1/en/places/radius?radius=" + radius + "&lon=" + lon + "&lat=" + lat + "&rate=3&format=json&limit=6&apikey=" + apiKey
+  var filtersURL = "https://api.opentripmap.com/0.1/en/places/radius?radius=" + radius + "&lon=" + lon + "&lat=" + lat + "&rate=3&format=json&limit=6&apikey=" + apiKey
 
-    $.ajax({
-        url: filtersURL,
-        method: "GET",
-    }).then(function (filterResults) {
-        console.log(filterResults)
+  $.ajax({
+    url: filtersURL,
+    method: "GET",
+  }).then(function (filterResults) {
+    console.log(filterResults)
 
-        pointsOfInterest(filterResults)
-    })
+    pointsOfInterest(filterResults)
+  })
 }
 
 // points of interest start
@@ -258,41 +235,32 @@ let poiEl = $("#top-attractions");
 
 //function to create POI's objects by requests using xid's
 function pointsOfInterest(filterResults) {
-    poiEl.empty(); // remove previous POI's
+  poiEl.empty(); // remove previous POI's
 
-    // function that created a url request for each xid
+  // function that created a url request for each xid
   for (let i = 0; i <= filterResults.length; i++) {
     let xid = filterResults[i].xid;
     var url =
-      "http://api.opentripmap.com/0.1/en/places/xid/" +  xid + "?apikey=" +  apiKey;
+      "http://api.opentripmap.com/0.1/en/places/xid/" + xid + "?apikey=" + apiKey;
 
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data)
 
-    //creating dynamically HTML card and appendint it to the POI Div with the releveant data elements
+        //creating dynamically HTML card and appendint it to the POI Div with the releveant data elements
         poiEl.append(
           $("<div>", {
             class: "col-sm-12 col-md-6 col-lg-4 attraction-card",
           }).append(
-            $("<div>", { class: "card" }).append(
+            $("<div>", { class: "poi-card" }).append(
               $("<div>", { class: "card-body" }).append([
-                $("<h5>")
-                  .attr("class", "card-title")
-                  .text(data.name),
-                $("<img>").addClass("image").attr("src", data.preview.source),
+                $("<h5>").attr("class", "card-title").text(data.name),
+                $("<img>").addClass("card-img-top").attr("src", data.preview.source),
                 $("<p>")
                   .attr("class", "card-text")
-                  .html(data.wikipedia_extracts.html),
-                $("<p>")
-                //opentripmap code example for 
-                .attr("class", "card-text").innerHTML = `<p><a target="_blank" href="${data.otm}">Show more at OpenTripMap</a></p>`,
-                // ($("<a>").attr("target",_blank).attr("href",wikipedia).text("See more at Wikipedia.com"))
-                $("<p>")
-                //opentripmap code example for 
-                .attr("class", "card-text").innerHTML = `<p><a target="_blank" href="${data.wikipedia}">Full article at Wikipedia.com</a></p>`
-                // ($("<a>").attr("target",_blank).attr("href",wikipedia).text("See more at Wikipedia.com"))
+                  .html(data.wikipedia_extracts.html.substring(0, 200) + `<a target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
+                  ),
               ])
             )
           )
@@ -300,7 +268,6 @@ function pointsOfInterest(filterResults) {
       });
   }
 }
-
 
 
 // KAMEL UNSPLASH
@@ -320,7 +287,7 @@ function loadImg() {
     })
     .then((data) => {
       for (let i = 0; i < data.results.length; i++) {
-        $(".image").append(
+        $('.image').append(
           $("<img>")
             .attr("src", data.results[i].urls.small)
             .attr("alt", data.results[i].alt_description)
@@ -452,23 +419,23 @@ const countries = {
 }
 
 const fromText = document.querySelector(".from-text"),
-toText = document.querySelector(".to-text"),
-exchageIcon = document.querySelector(".exchange"),
-selectTag = document.querySelectorAll("select"),
-icons = document.querySelectorAll(".row i");
+  toText = document.querySelector(".to-text"),
+  exchageIcon = document.querySelector(".exchange"),
+  selectTag = document.querySelectorAll("select"),
+  icons = document.querySelectorAll(".row i");
 translateBtn = document.querySelector("#translateBtn"),
 
-selectTag.forEach((tag, id) => {
-  for (let country_code in countries) {
+  selectTag.forEach((tag, id) => {
+    for (let country_code in countries) {
       let selected = id == 0 ? country_code == "en-GB" ? "selected" : "" : country_code == "es-ES" ? "selected" : "";
       let option = `<option ${selected} value="${country_code}">${countries[country_code]}</option>`;
-        tag.insertAdjacentHTML("beforeend", option);
-  }
-});
+      tag.insertAdjacentHTML("beforeend", option);
+    }
+  });
 
 exchageIcon.addEventListener("click", () => {
   let tempText = fromText.value,
-  tempLang = selectTag[0].value;
+    tempLang = selectTag[0].value;
   fromText.value = toText.innerText;
   toText.innerText = tempText;
   selectTag[0].value = selectTag[1].value;
@@ -476,80 +443,79 @@ exchageIcon.addEventListener("click", () => {
 });
 
 fromText.addEventListener("keyup", () => {
-  if(!fromText.value) {
-      toText.innerText = "";
+  if (!fromText.value) {
+    toText.innerText = "";
   }
 });
 
 /****************************/
 const options = {
-method: 'POST',
-headers: {
-  'content-type': 'application/json',
-  'X-RapidAPI-Key': 'c2432b444dmsh909f603234f0c69p1a0e09jsne64b3c285be3',
-  'X-RapidAPI-Host': 'ultra-fast-translation.p.rapidapi.com'
-},
-body: '{"from":"auto","to":"ar","e":"","q":""'
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json',
+    'X-RapidAPI-Key': 'c2432b444dmsh909f603234f0c69p1a0e09jsne64b3c285be3',
+    'X-RapidAPI-Host': 'ultra-fast-translation.p.rapidapi.com'
+  },
+  body: '{"from":"auto","to":"ar","e":"","q":""'
 };
 /****************************/
 
 translateBtn.addEventListener("click", () => {
   let text = fromText.value.trim(),
-  translateFrom = selectTag[0].value,
-  translateTo = selectTag[1].value;
-  if(!text) return;
+    translateFrom = selectTag[0].value,
+    translateTo = selectTag[1].value;
+  if (!text) return;
   toText.setAttribute("placeholder", "Translating...");
   translateBtn.innerText = "Translating...";
-  options.body =JSON.stringify(
+  options.body = JSON.stringify(
     {
-      "from":translateFrom,
-      "to":translateTo,
-      "e":"",
-      "q":text.split('\n')
+      "from": translateFrom,
+      "to": translateTo,
+      "e": "",
+      "q": text.split('\n')
     }
   );
   let apiUrl = `https://ultra-fast-translation.p.rapidapi.com/t`;
   fetch(apiUrl, options).then(res => res.json()).then(data => {
 
-      //console.log(options.body);
-      //console.log(data);
+    //console.log(options.body);
+    //console.log(data);
 
-      if(data.message){
-        toText.style.color = "red";
-        toText.innerHTML = data.message;
-        return
-      }else{
-        toText.style.color = "black";
-        toText.innerHTML = data.map(e => (e||e[0])).join('<br/>');
-      }
-      
-      toText.setAttribute("placeholder", "Translation");
-      translateBtn.innerText = "Translate Text";
+    if (data.message) {
+      toText.style.color = "red";
+      toText.innerHTML = data.message;
+      return
+    } else {
+      toText.style.color = "black";
+      toText.innerHTML = data.map(e => (e || e[0])).join('<br/>');
+    }
+
+    toText.setAttribute("placeholder", "Translation");
+    translateBtn.innerText = "Translate Text";
   });
 });
 
 
-
 icons.forEach(icon => {
-  icon.addEventListener("click", ({target}) => {
-      if(!fromText.value || !toText.innerText) return;
-      if(target.classList.contains("fa-copy")) {
-          if(target.id == "from") {
-              navigator.clipboard.writeText(fromText.value);
-          } else {
-              navigator.clipboard.writeText(toText.innerText);
-          }
+  icon.addEventListener("click", ({ target }) => {
+    if (!fromText.value || !toText.innerText) return;
+    if (target.classList.contains("fa-copy")) {
+      if (target.id == "from") {
+        navigator.clipboard.writeText(fromText.value);
       } else {
-          let utterance;
-          if(target.id == "from") {
-              utterance = new SpeechSynthesisUtterance(fromText.value);
-              utterance.lang = selectTag[0].value;
-          } else {
-              utterance = new SpeechSynthesisUtterance(toText.innerText);
-              utterance.lang = selectTag[1].value;
-          }
-          speechSynthesis.speak(utterance);
+        navigator.clipboard.writeText(toText.innerText);
       }
+    } else {
+      let utterance;
+      if (target.id == "from") {
+        utterance = new SpeechSynthesisUtterance(fromText.value);
+        utterance.lang = selectTag[0].value;
+      } else {
+        utterance = new SpeechSynthesisUtterance(toText.innerText);
+        utterance.lang = selectTag[1].value;
+      }
+      speechSynthesis.speak(utterance);
+    }
   });
 });
 //translator end

@@ -5,53 +5,71 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="./assets/css/style.css">
+
   <!-- Font Awesome CDN Link for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <title>Holiday Appetiser</title>
+  <title>travel2</title>
 </head>
 
 <body>
-  <nav class="navbar navbar-light bg-light">
-    <span class="navbar-brand mb-0 h1">Holiday Planning App</span>
+  <!-- <nav class="navbar navbar-dark bg-dark"> -->
+  <nav class="navbar">
+    <span class="navbar-brand mb-0 h1">travel2</span>
   </nav>
 
-  <div class="jumbotron jumbotron-fluid">
+  <div class="jumbotron jumbotron-fluid hero">
     <div class="container mainInput">
       <form>
         <div class="form-group">
-          <label class=text-centre for="searchInput">Which city do you want to go?</label>
+          <label class="text-centre" for="searchInput">Which city do you want to go?</label>
           <input type="city" class="form-control wide" id="searchInput" aria-describedby="searchInput">
         </div>
         <button type="submit" id="submit-btn" class="btn btn-primary">Search</button>
-        <button type="random" id="random-btn" class="btn btn-primary">Surprise Me</button>
+        <button type="random" id="random-btn" class="btn btn-outline-primary">Surprise Me</button>
+
+
+        <!-- Previously searched destinations -->
+        <div id="searchHistory">
+          <p>You've previously searched for...</p>
+          <div id="hist-buttons"></div>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- Previously searched destinations -->
-  <div id="searchHistory" class="container">
-    <h6>You've previously searched for...</h6>
-    <div id="hist-buttons"></div>
-  </div>
-
-  <div id="destination-Info" class="hide container">
-    <div class="destination">
-      <h1 id="dest-header">We're going to .....</h1>
-      <h1 id="chosen-city"></h1>
+  <!-- Previously searched destinations
+  <section id="searchHistory">
+    <div class="container">
+      <p>You've previously searched for...</p>
+      <div id="hist-buttons"></div>
     </div>
+  </section> -->
+
+
+  <div id="destination-Info" class="hide">
+    <h1 id="chosen-city" class="destination">
+    </h1>
 
     <!--5 Day Forecast-->
-    <div class="row" id="days"></div>
+    <div class="container">
+      <div class="row" id="days">
+        <div id="days0" class="column col-lg-3 col-md-6 col-sm-12"></div>
+        <div id="days1" class="column col-lg-3 col-md-6 col-sm-12"></div>
+        <div id="days2" class="column col-lg-3 col-md-6 col-sm-12"></div>
+        <div id="days3" class="column col-lg-3 col-md-6 col-sm-12"></div>
+        <div id="days4" class="column col-lg-3 col-md-6 col-sm-12"></div>
+      </div>
+    </div>
 
     <!-- destination information -->
     <section id="information" class="container">
       <div class="row">
-        <div class="column" style="background-color:#aaa;">
+        <div class="column" id="facts">
           <ul>
+            <h5>Some handy stats:</h5>
             <li id="date"></li>
             <li id="timezone"></li>
             <li id="population"></li>
@@ -60,7 +78,7 @@
           </ul>
         </div>
 
-        <div id="flag" class="column" style="background-color:#bbb;">
+        <div id="flag" class="column">
         </div>
       </div>
 
@@ -68,84 +86,97 @@
     </br>
 
     <!-- image gallery section -->
-    <section class="image container"></section>
+    <section id="image-section">
+      <h4 id="glimpse"></h4>
+      <div class="image d-flex flex-wrap"></div>
+    </section>
     <!-- end image section -->
 
     </br>
 
     <!-- info section -->
-    <section id="cards" class="container">
-      <div class="card" style="width: 40rem; padding: 20px 30px">
-        <h5 id="info-title"></h5>
-        <div class="info"></div>
-      </div>
-
-      <div class="translator">
-        <!-- Translater https://codepen.io/oussamasibari/pen/JjLLxxv -->
-        <div class="translator-container" style="width: 40rem">
-
-          <h5 style="color:#007bff; margin-bottom : 20px">Don't know the lingo! We've got covered</h5>
-          
-          <div class="translator-wrapper">
-            <div class="text-input">
-              <textarea spellcheck="false" class="textarea from-text" placeholder="Enter or paste your text"></textarea>
-              <div spellcheck="false" readonly disabled contenteditable="true" class="textarea to-text"
-                placeholder="Translation"></div>
-            </div>
-            <ul class="controls">
-              <li class="row from">
-                <div class="icons">
-                  <i id="from" class="fas fa-volume-up"></i>
-                  <i id="from" class="fas fa-copy"></i>
-                </div>
-                <select></select>
-              </li>
-              <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
-              <li class="row to">
-                <select></select>
-                <div class="icons">
-                  <i id="to" class="fas fa-volume-up"></i>
-                  <i id="to" class="fas fa-copy"></i>
-                </div>
-              </li>
-            </ul>
+    <div id="cards" class="container">
+      <div class="row">
+        <div class="column col-lg-6 col-md-12">
+          <div class="card" style="width: 40rem; padding: 20px 30px">
+            <h5 id="info-title"></h5>
+            <div class="info"></div>
           </div>
-          <button id="translateBtn">Translate Text</button>
-
-          <h6 style="margin-top : 20px">
-            <a target="_blank" style="color:#007bff;text-decoration:none"
-              href="https://rapidapi.com/sibaridev/api/rapid-translate-multi-traduction">rapidapi.com</a>
-          </h6>
-
         </div>
-        <!-- https://codepen.io/oussamasibari/pen/JjLLxxv-->
 
+        <div class="column col-lg-6 col-md-12">
+          <div class="translator container">
+            <!-- Translater https://codepen.io/oussamasibari/pen/JjLLxxv -->
+            <div class="translator-container" style="width: 40rem">
+
+              <h5 style="color: rgb(24, 140, 140); margin-bottom : 20px">Don't know the lingo? We've got you covered
+              </h5>
+
+              <div class="translator-wrapper">
+                <div class="text-input">
+                  <textarea spellcheck="false" class="textarea from-text"
+                    placeholder="Enter or paste your text"></textarea>
+                  <div spellcheck="false" readonly disabled contenteditable="true" class="textarea to-text"
+                    placeholder="Translation"></div>
+                </div>
+                <ul class="controls">
+                  <li class="row from">
+                    <div class="icons">
+                      <i id="from" class="fas fa-volume-up"></i>
+                      <i id="from" class="fas fa-copy"></i>
+                    </div>
+                    <select></select>
+                  </li>
+                  <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+                  <li class="row to">
+                    <select></select>
+                    <div class="icons">
+                      <i id="to" class="fas fa-volume-up"></i>
+                      <i id="to" class="fas fa-copy"></i>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <button id="translateBtn">Translate Text</button>
+
+              <p style="margin-top : 20px">
+                <a target="_blank" style="color:rgb(24, 140, 140);text-decoration:none"
+                  href="https://rapidapi.com/sibaridev/api/rapid-translate-multi-traduction">rapidapi.com</a>
+              </p>
+
+            </div>
+            <!-- https://codepen.io/oussamasibari/pen/JjLLxxv-->
+
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
     <!-- end info section -->
 
 
     <!-- top attractions in your area -->
-    <div id="attractions-container">
-      <h1 id="dest-header">Places you might find interesting...</h1>
+    <section id="attractions-container" class="container">
+      <h5 id="dest-header">Places you might find interesting...</h5>
       <div class="row" id="top-attractions"></div>
-    </div>
+    </section>
     <!-- end top attractions  -->
 
-    <footer class="navbar navbar-light bg-light">
-      <span class="navbar-brand mb-0 h1">This is where social media icons will go!</span>
+    <footer class="navbar">
+      <span class="navbar-brand mb-0 p">Made by Group 16</span>
     </footer>
+  </div>
 
-    <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="./assets/js/moment-timezone.js"></script>
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!-- Will need to enter a different file for keys for deploying to github -->
-    <!-- <script src="./assets/js/public-keys.js"></script> -->
-    <!-- <script src="./assets/js/keys.js"></script> -->
-    <script src="./assets/js/script.js"></script>
+
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Will need to enter a different file for keys for deploying to github -->
+  <!-- <script src="./assets/js/public-keys.js"></script> -->
+  <!-- <script src="./assets/js/keys.js"></script> -->
+  <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
