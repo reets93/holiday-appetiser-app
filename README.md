@@ -36,11 +36,12 @@ The following websites were used to support this project:
 - https://developer.mozilla.org/en-US/docs/Web/API/fetch
 - https://flagpedia.net/
 - https://getbootstrap.com/docs/4.6/components/modal/
+- https://www.youtube.com/watch?v=cCxcxRw9j_s&feature=youtu.be
 
 ## Colloborators
--Rita
--Kamel
--Lissa
+-Rita Fitchett
+-Kamel Beloula
+-Lissa Simpson
 
 
 ## License

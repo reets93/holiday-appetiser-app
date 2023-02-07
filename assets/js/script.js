@@ -75,33 +75,12 @@ $('#submit-btn').on('click', function (e) { //added id on submit button
     storeData()
   }
   })
-//   //modal  close function
-  setTimeout(function(hideModal){
-    $('#myModal').modal('hide');
-    $('#myModal2').modal('hide');
-}, 4000);
-
-// $("#closeBtn").click(function(){
-//   console.log("close button")
-//   $("#myModal").modal('hide');
-//   $("#myModal2").modal('hide');
-// })
-
-
 
 // saving search input to local storage
 function storeData() {
   localStorage.setItem("destination" + [i], destination)
   // persistData()
 }
-
-// //modal
-// $(document).ready(function(){
-// 	$('#submit-btn').click(function(){
-//     console.log("Button clicked") //button clicked is working - just not bringing up modal
-// 		// $('#myModal').modal('show')
-// 	});
-// });
 
 // repeating function to populate search results based on destination text input
 function destinationData() {
