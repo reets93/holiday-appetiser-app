@@ -1,24 +1,16 @@
-$(document).ready(function() {
-  persistData(destinationsHistory)
+$(document).ready(function () {
+  persistData(destinationsHistory);
 });
 
 // RITA's OPENTRIPMAP API
 var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
 var radius = "15000"; //15km radius
 var destination;
-// var destinationArray = [];
-// var destinationsHistory =JSON.parse(localStorage.getItem("history"));
-console.log(destinationsHistory);
-// persist local storage
-// if nothing in local storage, previously searched is hidden
-// if (localStorage.length == 0) {
-//   $("#searchHistory").addClass("hide");
-// }
-// console.log(destinationArray);
+var destinationsHistory = JSON.parse(localStorage.getItem("history")) || [];
+
 // displays searched cities from previous sessions (won't update / populate straight away)
-var destinationsHistory =JSON.parse(localStorage.getItem("history"))||[];
 function persistData() {
-  $("#hist-buttons").empty()
+  $("#hist-buttons").empty();
   for (let i = 0; i < destinationsHistory.length; i++) {
     $("#hist-buttons").append(
       $("<button>")
@@ -29,22 +21,17 @@ function persistData() {
   }
 }
 
-function saveDestinations(){
+function saveDestinations() {
   var destination = $("#searchInput").val().trim();
-  if(destinationsHistory.includes(destination)){ 
-    return
+  if (destinationsHistory.includes(destination)) {
+    return;
+  }
+  destinationsHistory.push(destination);
+  localStorage.setItem("history", JSON.stringify(destinationsHistory));
+  persistData();
 }
-// destinationArray.push(destination)
-destinationsHistory.push(destination)
-// console.log(destinationArray)
-  // localStorage.setItem("history",JSON.stringify(destinationArray));
-  localStorage.setItem("history",JSON.stringify(destinationsHistory));
-  persistData()
-}
-
 
 $("#clear-search").on("click", function (e) {
-  //clears the whole page/refreshes...
   localStorage.clear();
   e.stopPropagation();
   e.preventDefault();
@@ -53,16 +40,14 @@ $("#clear-search").on("click", function (e) {
 });
 
 // link search history button to search
-function retrieveHistory (e){
-  e.preventDefault()
+function retrieveHistory(e) {
+  e.preventDefault();
   console.log("clicked");
-  destination = ((e.target).innerText);
-  console.log((e.target).innerText);
-  // e.stopPropagation()
+  destination = e.target.innerText;
+  console.log(e.target.innerText);
   console.log("hist-btn:" + destination);
-  destinationData()
+  destinationData();
 }
-
 
 // generate random city from list of cities
 $("#random-btn").on("click", function (e) {
@@ -107,31 +92,19 @@ $("#random-btn").on("click", function (e) {
 
 // generate basic details for the city
 $("#submit-btn").on("click", function (e) {
-  //added id on submit button
-  //button clicked is working - just not bringing up modal
-
   e.preventDefault();
   e.stopPropagation();
-
   destination = $("#searchInput").val().trim();
   // $('#submit-btn').click(function(){
   console.log("Button clicked");
   if (!destination) {
     // check the user entered a destination
-    // alert("You need to enter a city or press the Surprise Me button")
     $("#myModal").modal("show");
   } else {
     destinationData();
-    saveDestinations()// lines added kamel
-    // storeData();
+    saveDestinations();
   }
 });
-
-// // saving search input to local storage
-// function storeData() {
-//   localStorage.setItem("destination" + [i], destination);
-//   // persistData()
-// }
 
 // repeating function to populate search results based on destination text input
 function destinationData() {
@@ -336,7 +309,10 @@ function pointsOfInterest(filterResults) {
   for (let i = 0; i <= filterResults.length; i++) {
     let xid = filterResults[i].xid;
     var url =
-      "http://api.opentripmap.com/0.1/en/places/xid/" + xid + "?apikey=" + apiKey;
+      "http://api.opentripmap.com/0.1/en/places/xid/" +
+      xid +
+      "?apikey=" +
+      apiKey;
 
     fetch(url)
       .then((res) => res.json())
@@ -351,10 +327,14 @@ function pointsOfInterest(filterResults) {
             $("<div>", { class: "poi-card" }).append(
               $("<div>", { class: "card-body" }).append([
                 // $("<h5>").attr("class", "card-title").text(data.name),
-                $("<img>").addClass("card-img-top").attr("src", data.preview.source),
+                $("<img>")
+                  .addClass("card-img-top")
+                  .attr("src", data.preview.source),
                 $("<p>")
                   .attr("class", "card-text")
-                  .html(data.wikipedia_extracts.html.substring(0, 200) + `<a style=("color","rgb(24, 140, 140)") target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
+                  .html(
+                    data.wikipedia_extracts.html.substring(0, 200) +
+                      `<a style=("color","rgb(24, 140, 140)") target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
                   ),
               ])
             )
@@ -368,7 +348,7 @@ function pointsOfInterest(filterResults) {
 //**********************************************************************************************************************************//
 // KAMEL UNSPLASH Carousel
 // let destination = prompt("Where do you want to go?")
-$('.carousel').carousel()
+$(".carousel").carousel();
 let unsplashKey = "ESyjXqRXwVskR1K0ur2j9_oBwjBORBDQ-nCOppV4ie0";
 $("#welcome").text("Welcome to " + destination);
 window.addEventListener("load", loadImg);
@@ -384,12 +364,13 @@ function loadImg() {
     })
     .then((data) => {
       for (let i = 0; i < data.results.length; i++) {
-          $("#"+ i)
-            .attr("src", data.results[i].urls.regular)
-            .css({"height":"80%","cover":"repeat","width":"auto"})
-            .attr("alt", data.results[i].alt_description)
-      }});
-    }
+        $("#" + i)
+          .attr("src", data.results[i].urls.regular)
+          .css({ height: "80%", cover: "repeat", width: "auto" })
+          .attr("alt", data.results[i].alt_description);
+      }
+    });
+}
 //end unsplash
 
 //****************************************************************************************************************************************************** */
@@ -624,4 +605,4 @@ icons.forEach((icon) => {
 });
 //translator end
 
-$("#hist-buttons").on("click", retrieveHistory)
+$("#hist-buttons").on("click", retrieveHistory);
