@@ -200,6 +200,11 @@ function airport() {
     })
     .then(function (result) {
       console.log(result);
+      if (result.length === 0) {
+        console.log("There are no airports associated with this city");
+        $("#airport").text("There are no airports associated with this city");
+      }
+    
 
       if (result.length === 1) {
         var allAirports = result[0].display_name;
@@ -232,7 +237,7 @@ function displayForecast() {
     $("#days").empty();
     var weatherArray = response.list;
     for (var i = 0; i < weatherArray.length; i++) {
-      delete weatherArray[35]; // should remove last 5 results
+      delete weatherArray[32]; // should remove last 5 results
       if (weatherArray[i].dt_txt.split(" ")[1] === "12:00:00") {
         var cityMain = $("<div>");
         cityMain.addClass("col-lg-3 col-md-6 mb-2 forecast-card");
