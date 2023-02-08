@@ -1,158 +1,210 @@
-// RITA's OPENTRIPMAP API
-var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
-var radius = "15000" //15km radius 
-var destination;
-
-
-// persist local storage 
-// if nothing in local storage, previously searched is hidden
-if (localStorage.length == 0) {
-  $('#searchHistory').addClass("hide")
-}
-
-// displays searched cities from previous sessions (won't update / populate straight away)
-persistData()
-function persistData() {
-  for (i = 0; i < localStorage.length; i++) {
-    var historyBtn = $('<button>').addClass("history-btn").addClass("btn").addClass("btn-sm").addClass("btn-outline-primary").css({ border: "#f6f6f6", margin: "5px" })
-    var histText = localStorage.getItem("destination" + [i])
-    historyBtn.text(histText).addClass("text-capitalize")
-    $('#hist-buttons').append(historyBtn)
-  }
-}
-
-$('#clear-search').on('click', function (e) { //clears the whole page/refreshes... 
-  localStorage.clear()
-  e.stopPropagation()  
-  e.preventDefault()
-  $('#hist-buttons').empty()
-  $('#searchHistory').addClass('hide')
-})
-
-// link search history button to search
-$(".history-btn").on('click', function (e) {
-  e.preventDefault()
-  e.stopPropagation()
-  var content = $(e.target).text()
-  destination = content
-  console.log("hist-btn:" + destination)
-  destinationData()
-})
-
-// generate random city from list of cities
-$('#random-btn').on('click', function (e) {
-  e.preventDefault()
-  e.stopPropagation()
-
-  var citiesArr = ["Mexico City", "Belgrade", "Lisbon", "Buenos Aires", "Milan", "Paris", "Beirut", "Manila", "Toronto", "Kyiv", "Prague", "Dublin", "Hamburg", "Los Angeles"]
-  var surpriseMe = function (arr) { //https://www.programiz.com/javascript/examples/get-random-item
-    const randomIndex = Math.floor(Math.random() * arr.length)
-    const randomCity = arr[randomIndex]
-    return randomCity;
-  }
-  const surpriseCity = surpriseMe(citiesArr)
-  console.log("Random city is: " + surpriseCity)
-
-  destination = surpriseCity
-  var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
-
-  console.log(destination)
-  destinationData()
+$(document).ready(function() {
+  persistData(destinationsHistory)
 });
 
+// RITA's OPENTRIPMAP API
+var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
+var radius = "15000"; //15km radius
+var destination;
+// var destinationArray = [];
+// var destinationsHistory =JSON.parse(localStorage.getItem("history"));
+console.log(destinationsHistory);
+// persist local storage
+// if nothing in local storage, previously searched is hidden
+// if (localStorage.length == 0) {
+//   $("#searchHistory").addClass("hide");
+// }
+// console.log(destinationArray);
+// displays searched cities from previous sessions (won't update / populate straight away)
+var destinationsHistory =JSON.parse(localStorage.getItem("history"))||[];
+function persistData() {
+  $("#hist-buttons").empty()
+  for (let i = 0; i < destinationsHistory.length; i++) {
+    $("#hist-buttons").append(
+      $("<button>")
+        .addClass("history-btn btn btn-sm btn-outline-primary text-capitalize")
+        .css({ border: "#f6f6f6", margin: "5px" })
+        .text(destinationsHistory[i])
+    );
+  }
+}
+
+function saveDestinations(){
+  var destination = $("#searchInput").val().trim();
+  if(destinationsHistory.includes(destination)){ 
+    return
+}
+// destinationArray.push(destination)
+destinationsHistory.push(destination)
+// console.log(destinationArray)
+  // localStorage.setItem("history",JSON.stringify(destinationArray));
+  localStorage.setItem("history",JSON.stringify(destinationsHistory));
+  persistData()
+}
+
+
+$("#clear-search").on("click", function (e) {
+  //clears the whole page/refreshes...
+  localStorage.clear();
+  e.stopPropagation();
+  e.preventDefault();
+  $("#searchHistory").addClass("hide");
+  $("#carouselExampleIndicators").addClass("hide");
+});
+
+// link search history button to search
+function retrieveHistory (e){
+  e.preventDefault()
+  console.log("clicked");
+  destination = ((e.target).innerText);
+  console.log((e.target).innerText);
+  // e.stopPropagation()
+  console.log("hist-btn:" + destination);
+  destinationData()
+}
+
+
+// generate random city from list of cities
+$("#random-btn").on("click", function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  var citiesArr = [
+    "Mexico City",
+    "Belgrade",
+    "Lisbon",
+    "Buenos Aires",
+    "Milan",
+    "Paris",
+    "Beirut",
+    "Manila",
+    "Toronto",
+    "Kyiv",
+    "Prague",
+    "Dublin",
+    "Hamburg",
+    "Los Angeles",
+  ];
+  var surpriseMe = function (arr) {
+    //https://www.programiz.com/javascript/examples/get-random-item
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    const randomCity = arr[randomIndex];
+    return randomCity;
+  };
+  const surpriseCity = surpriseMe(citiesArr);
+  console.log("Random city is: " + surpriseCity);
+
+  destination = surpriseCity;
+  var destURL =
+    "http://api.opentripmap.com/0.1/en/places/geoname?name=" +
+    destination +
+    "&apikey=" +
+    "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
+
+  console.log(destination);
+  destinationData();
+});
 
 // generate basic details for the city
-$('#submit-btn').on('click', function (e) { //added id on submit button
+$("#submit-btn").on("click", function (e) {
+  //added id on submit button
   //button clicked is working - just not bringing up modal
 
-  e.preventDefault()
-  e.stopPropagation()
+  e.preventDefault();
+  e.stopPropagation();
 
-  destination = $('#searchInput').val().trim()
+  destination = $("#searchInput").val().trim();
   // $('#submit-btn').click(function(){
-  console.log("Button clicked")
-  if (!destination) {// check the user entered a destination
+  console.log("Button clicked");
+  if (!destination) {
+    // check the user entered a destination
     // alert("You need to enter a city or press the Surprise Me button")
-    $('#myModal').modal('show')
+    $("#myModal").modal("show");
   } else {
-    destinationData()
-    storeData()
+    destinationData();
+    saveDestinations()// lines added kamel
+    // storeData();
   }
-})
+});
 
-// saving search input to local storage
-function storeData() {
-  localStorage.setItem("destination"+[i], destination)
-  // persistData()
-}
+// // saving search input to local storage
+// function storeData() {
+//   localStorage.setItem("destination" + [i], destination);
+//   // persistData()
+// }
 
 // repeating function to populate search results based on destination text input
 function destinationData() {
-  var destURL = "http://api.opentripmap.com/0.1/en/places/geoname?name=" + destination + "&apikey=" + "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329"
-  $('#destination-Info').removeClass("hide")
+  var destURL =
+    "http://api.opentripmap.com/0.1/en/places/geoname?name=" +
+    destination +
+    "&apikey=" +
+    "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
+  $("#destination-Info").removeClass("hide");
 
   $.ajax({
     url: destURL,
     method: "GET",
   }).then(function (response) {
-    console.log(response)
+    console.log(response);
     if (response.partial_match || response.status === "NOT_FOUND") {
       // destination not found or partially matched
       // alert("destination " + destination + " not found");
-      $('#myModal2').modal('show')
+      $("#myModal2").modal("show");
     } else {
       //clears search input after submit
-      $('#searchInput').val('')
-      $('#chosen-city').empty()
-      $('#flag').empty()
-      $('.image').empty()
-      $('.info').empty()
-      $('#glimpse').empty()
-      $('#airport').empty()
+      $("#searchInput").val("");
+      $("#chosen-city").empty();
+      $("#flag").empty();
+      $(".image").empty();
+      $(".info").empty();
+      $("#glimpse").empty();
+      $("#airport").empty();
       // adds city to heading of results
       // $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
-      $('#chosen-city').append(destination).addClass("text-capitalize")
-      $('#glimpse').append("A glimpse of " + destination).addClass("text-capitalize")
+      $("#chosen-city").append(destination).addClass("text-capitalize");
+      $("#glimpse")
+        .append("A glimpse of " + destination)
+        .addClass("text-capitalize");
 
       // add popuation
-      $('#population').text("Population: " + response.population)
+      $("#population").text("Population: " + response.population);
 
       //adds country
-      $('#country').text("Country: " + response.country)
+      $("#country").text("Country: " + response.country);
 
-      loadImg(destination)
-      infos(destination)
-      moreDetails(response)
-      flag(response)
-      timezone()
-      airport()
-      displayForecast()
-
+      loadImg(destination);
+      infos(destination);
+      moreDetails(response);
+      flag(response);
+      timezone();
+      airport();
+      displayForecast();
     }
-  })
+  });
 }
 
-
-//Lissa Timezone function 
+//Lissa Timezone function
 function timezone() {
   $.ajax({
-    method: 'GET',
-    url: 'https://api.api-ninjas.com/v1/worldtime?city=' + destination,
-    headers: { 'X-Api-Key': 'Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT' },
-    contentType: 'application/json',
+    method: "GET",
+    url: "https://api.api-ninjas.com/v1/worldtime?city=" + destination,
+    headers: { "X-Api-Key": "Y7LcVCBBcLzGCCiZNZ3Rhw==D3rdORUGMPG9L8OT" },
+    contentType: "application/json",
     success: function (result) {
-      var time = result.datetime.split(" ")[1]
-      var day = result.day
-      var month = result.month
-      var year = result.year
-      $("#date").text("It is now " + time + " on the " + day + "/" + month + "/" + year + ".")
-      $("#timezone").text("Timezone: " + result.timezone)
-
+      var time = result.datetime.split(" ")[1];
+      var day = result.day;
+      var month = result.month;
+      var year = result.year;
+      $("#date").text(
+        "It is now " + time + " on the " + day + "/" + month + "/" + year + "."
+      );
+      $("#timezone").text("Timezone: " + result.timezone);
     },
     error: function ajaxError(jqXHR) {
       // console.error('Error: ', jqXHR.responseText);
-    }
-  })
+    },
+  });
 }
 
 //Lissa Airport
@@ -179,80 +231,99 @@ function airport() {
       if (result.length === 1) {
         var allAirports = result[0].display_name;
         console.log("City only has one airport: " + allAirports);
-        $("#airport").text("City only has one airport: " + allAirports)
+        $("#airport").text("City only has one airport: " + allAirports);
         return allAirports;
       } else {
         var displayName = result[1].display_name;
         console.log("City's main airport is: " + displayName);
-        $("#airport").text("City's main airport is: " + displayName)
+        $("#airport").text("City's main airport is: " + displayName);
         return displayName;
       }
-  
     });
-  };
+}
 
 //Lissa Weather
 function displayForecast() {
   var apiKey = "76dd56a7c869514402bbcfd7dbd7cbb7";
-  var forecast = "https://api.openweathermap.org/data/2.5/forecast?q=" + destination + "&units=metric&appid=" + apiKey;
-
+  var forecast =
+    "https://api.openweathermap.org/data/2.5/forecast?q=" +
+    destination +
+    "&units=metric&appid=" +
+    apiKey;
 
   $.ajax({
     url: forecast,
     method: "GET",
   }).then(function (response) {
-    console.log(response)
-    $('#days').empty()
+    console.log(response);
+    $("#days").empty();
     var weatherArray = response.list;
     for (var i = 0; i < weatherArray.length; i++) {
-      delete weatherArray[35]; // should remove last 5 results 
-      console.log(weatherArray[i]);
-      if (weatherArray[i].dt_txt.split(' ')[1] === '12:00:00') {
-        var cityMain = $('<div>');
-        cityMain.addClass('col-lg-3 col-md-6 mb-2 forecast-card');
+      delete weatherArray[35]; // should remove last 5 results
+      if (weatherArray[i].dt_txt.split(" ")[1] === "12:00:00") {
+        var cityMain = $("<div>");
+        cityMain.addClass("col-lg-3 col-md-6 mb-2 forecast-card");
         var date = $("<h6>").text(response.list[i].dt_txt.split(" ")[0]);
-        var image = $('<img>').attr('src', 'http://openweathermap.org/img/w/' + weatherArray[i].weather[0].icon + '.png');
-        var minTemp = $('<p>').text('Min Temperature: ' + Math.floor(weatherArray[i].main.temp_min) + '°C');
-        var maxTemp = $('<p>').text('Temp: ' + Math.floor(weatherArray[i].main.temp_max) + '°C');
-        var dayOfWeek = moment(response.list[i].dt_txt.split(" ")[0]).format("dddd")
+        var image = $("<img>").attr(
+          "src",
+          "http://openweathermap.org/img/w/" +
+            weatherArray[i].weather[0].icon +
+            ".png"
+        );
+        var minTemp = $("<p>").text(
+          "Min Temperature: " + Math.floor(weatherArray[i].main.temp_min) + "°C"
+        );
+        var maxTemp = $("<p>").text(
+          "Temp: " + Math.floor(weatherArray[i].main.temp_max) + "°C"
+        );
+        var dayOfWeek = moment(response.list[i].dt_txt.split(" ")[0]).format(
+          "dddd"
+        );
         // cityMain.append(image).append(dayOfWeek).append(date).append(maxTemp)
-        cityMain.append(image).append(dayOfWeek).append(maxTemp)
+        cityMain.append(image).append(dayOfWeek).append(maxTemp);
 
-        $('#days').append(cityMain);
-
+        $("#days").append(cityMain);
       }
     }
-
   });
-};
-
-
-// links flag to country code 
-function flag(response) {
-  var countryCode = response.country.toLowerCase()
-  var flagURL = "https://flagcdn.com/w320/" + countryCode + ".png" // perhaps use openweather countrycode for more accuracy?
-  var flag = $('<img>').attr("src", flagURL).css({ border: ".05px solid #333333" }).addClass("flagImg")
-  $('#flag').append(flag)
 }
 
+// links flag to country code
+function flag(response) {
+  var countryCode = response.country.toLowerCase();
+  var flagURL = "https://flagcdn.com/w320/" + countryCode + ".png"; // perhaps use openweather countrycode for more accuracy?
+  var flag = $("<img>")
+    .attr("src", flagURL)
+    .css({ border: ".05px solid #333333" })
+    .addClass("flagImg");
+  $("#flag").append(flag);
+}
 
-// uses basic info + inputted radius to generate search results 
+// uses basic info + inputted radius to generate search results
 function moreDetails(response) {
-  var lon = response.lon
-  var lat = response.lat
+  var lon = response.lon;
+  var lat = response.lat;
 
-  var filtersURL = "https://api.opentripmap.com/0.1/en/places/radius?radius=" + radius + "&lon=" + lon + "&lat=" + lat + "&rate=3&format=json&limit=6&apikey=" + apiKey
+  var filtersURL =
+    "https://api.opentripmap.com/0.1/en/places/radius?radius=" +
+    radius +
+    "&lon=" +
+    lon +
+    "&lat=" +
+    lat +
+    "&rate=3&format=json&limit=6&apikey=" +
+    apiKey;
 
   $.ajax({
     url: filtersURL,
     method: "GET",
   }).then(function (filterResults) {
-    console.log(filterResults)
+    console.log(filterResults);
 
-    pointsOfInterest(filterResults)
-  })
+    pointsOfInterest(filterResults);
+  });
 }
-
+//***************************************************************************************************************************************** */
 // points of interest start
 // points of interest Div element
 let poiEl = $("#top-attractions");
@@ -279,11 +350,11 @@ function pointsOfInterest(filterResults) {
           }).append(
             $("<div>", { class: "poi-card" }).append(
               $("<div>", { class: "card-body" }).append([
-                $("<h5>").attr("class", "card-title").text(data.name),
+                // $("<h5>").attr("class", "card-title").text(data.name),
                 $("<img>").addClass("card-img-top").attr("src", data.preview.source),
                 $("<p>")
                   .attr("class", "card-text")
-                  .html(data.wikipedia_extracts.html.substring(0, 200) + `<a target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
+                  .html(data.wikipedia_extracts.html.substring(0, 200) + `<a style=("color","rgb(24, 140, 140)") target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
                   ),
               ])
             )
@@ -292,10 +363,12 @@ function pointsOfInterest(filterResults) {
       });
   }
 }
+// points of interest end
 
-
-// KAMEL UNSPLASH
+//**********************************************************************************************************************************//
+// KAMEL UNSPLASH Carousel
 // let destination = prompt("Where do you want to go?")
+$('.carousel').carousel()
 let unsplashKey = "ESyjXqRXwVskR1K0ur2j9_oBwjBORBDQ-nCOppV4ie0";
 $("#welcome").text("Welcome to " + destination);
 window.addEventListener("load", loadImg);
@@ -303,7 +376,7 @@ function loadImg() {
   const url =
     "https://api.unsplash.com/search/photos?query=" +
     destination +
-    "&order_by=relevant&orientation=landscape&per_page=3&client_id=" +
+    "&order_by=relevant&orientation=landscape&h=200px&per_page=9&client_id=" +
     unsplashKey;
   fetch(url)
     .then((response) => {
@@ -311,15 +384,15 @@ function loadImg() {
     })
     .then((data) => {
       for (let i = 0; i < data.results.length; i++) {
-        $('.image').append(
-          $("<img>")
-            .attr("src", data.results[i].urls.small)
+          $("#"+ i)
+            .attr("src", data.results[i].urls.regular)
+            .css({"height":"80%","cover":"repeat","width":"auto"})
             .attr("alt", data.results[i].alt_description)
-        );
-      }
-    });
-}
+      }});
+    }
 //end unsplash
+
+//****************************************************************************************************************************************************** */
 
 // KAMEL Wiki
 function infos() {
@@ -333,12 +406,15 @@ function infos() {
     .then((data) => {
       let result = Object.values(data.query.pages);
       console.log(result[0].extract);
-      $('#info-title').text("Get to know " + destination).addClass("text-capitalize")
+      $("#info-title")
+        .text("Get to know " + destination)
+        .addClass("text-capitalize");
       $(".info").append($("<p>").text(result[0].extract));
     });
 }
 // end wiki
 
+//***************************************************************************************************************************************************************** */
 
 //translator start
 //https://codepen.io/oussamasibari/pen/JjLLxxv
@@ -439,19 +515,25 @@ const countries = {
   "wo-SN": "Wolof",
   "xh-ZA": "Xhosa",
   "yi-YD": "Yiddish",
-  "zu-ZA": "Zulu"
-}
+  "zu-ZA": "Zulu",
+};
 
 const fromText = document.querySelector(".from-text"),
   toText = document.querySelector(".to-text"),
   exchageIcon = document.querySelector(".exchange"),
   selectTag = document.querySelectorAll("select"),
   icons = document.querySelectorAll(".row i");
-translateBtn = document.querySelector("#translateBtn"),
-
+(translateBtn = document.querySelector("#translateBtn")),
   selectTag.forEach((tag, id) => {
     for (let country_code in countries) {
-      let selected = id == 0 ? country_code == "en-GB" ? "selected" : "" : country_code == "es-ES" ? "selected" : "";
+      let selected =
+        id == 0
+          ? country_code == "en-GB"
+            ? "selected"
+            : ""
+          : country_code == "es-ES"
+          ? "selected"
+          : "";
       let option = `<option ${selected} value="${country_code}">${countries[country_code]}</option>`;
       tag.insertAdjacentHTML("beforeend", option);
     }
@@ -474,13 +556,13 @@ fromText.addEventListener("keyup", () => {
 
 /****************************/
 const options = {
-  method: 'POST',
+  method: "POST",
   headers: {
-    'content-type': 'application/json',
-    'X-RapidAPI-Key': 'c2432b444dmsh909f603234f0c69p1a0e09jsne64b3c285be3',
-    'X-RapidAPI-Host': 'ultra-fast-translation.p.rapidapi.com'
+    "content-type": "application/json",
+    "X-RapidAPI-Key": "c2432b444dmsh909f603234f0c69p1a0e09jsne64b3c285be3",
+    "X-RapidAPI-Host": "ultra-fast-translation.p.rapidapi.com",
   },
-  body: '{"from":"auto","to":"ar","e":"","q":""'
+  body: '{"from":"auto","to":"ar","e":"","q":""',
 };
 /****************************/
 
@@ -491,36 +573,34 @@ translateBtn.addEventListener("click", () => {
   if (!text) return;
   toText.setAttribute("placeholder", "Translating...");
   translateBtn.innerText = "Translating...";
-  options.body = JSON.stringify(
-    {
-      "from": translateFrom,
-      "to": translateTo,
-      "e": "",
-      "q": text.split('\n')
-    }
-  );
-  let apiUrl = `https://ultra-fast-translation.p.rapidapi.com/t`;
-  fetch(apiUrl, options).then(res => res.json()).then(data => {
-
-    //console.log(options.body);
-    //console.log(data);
-
-    if (data.message) {
-      toText.style.color = "red";
-      toText.innerHTML = data.message;
-      return
-    } else {
-      toText.style.color = "black";
-      toText.innerHTML = data.map(e => (e || e[0])).join('<br/>');
-    }
-
-    toText.setAttribute("placeholder", "Translation");
-    translateBtn.innerText = "Translate Text";
+  options.body = JSON.stringify({
+    from: translateFrom,
+    to: translateTo,
+    e: "",
+    q: text.split("\n"),
   });
+  let apiUrl = `https://ultra-fast-translation.p.rapidapi.com/t`;
+  fetch(apiUrl, options)
+    .then((res) => res.json())
+    .then((data) => {
+      //console.log(options.body);
+      //console.log(data);
+
+      if (data.message) {
+        toText.style.color = "red";
+        toText.innerHTML = data.message;
+        return;
+      } else {
+        toText.style.color = "black";
+        toText.innerHTML = data.map((e) => e || e[0]).join("<br/>");
+      }
+
+      toText.setAttribute("placeholder", "Translation");
+      translateBtn.innerText = "Translate Text";
+    });
 });
 
-
-icons.forEach(icon => {
+icons.forEach((icon) => {
   icon.addEventListener("click", ({ target }) => {
     if (!fromText.value || !toText.innerText) return;
     if (target.classList.contains("fa-copy")) {
@@ -543,3 +623,5 @@ icons.forEach(icon => {
   });
 });
 //translator end
+
+$("#hist-buttons").on("click", retrieveHistory)

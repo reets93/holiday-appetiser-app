@@ -115,8 +115,8 @@ form {
 #dest-header {
   padding-left: 20px;
 }
-
-#image-section {
+/* kamel added slide class */
+#image-section .slide{
   background-color: var(--btn-outline);
   padding: 20px;
 }
@@ -207,9 +207,12 @@ section {
   margin-left: 1rem;
 }
 
+
 img {
-  max-width:100%
+    width: 50%;
+    margin: auto;
 }
+
 
 .poi-card img {
   max-height: 260px;
@@ -227,8 +230,8 @@ img {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, .125);
-  border-radius: .25rem;
+  /* border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: .25rem; */
 }
 
 @media (min-width: 576px) {
@@ -467,4 +470,28 @@ li,
   .controls .exchange {
     font-size: 14px;
   }
+}
+
+.carousel-inner > .carousel-item > img{
+  width: 250px; 
+  height:auto; 
+}
+
+/* kamel added the below */
+.carousel-item{
+  width: 100vw;
+  align-items: center;
+}
+
+.card-body{
+  background-color: var(--btn-outline);
+  color: white;
+  border-radius: 5%;
+}
+
+.card-body:hover {
+  transform: rotate(2deg);
+  box-shadow: 10px 10px 5px #aaa;
+  background-color: var(--dark-bg);
+  
 }
