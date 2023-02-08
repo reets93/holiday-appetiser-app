@@ -108,6 +108,7 @@ function destinationData() {
       $('.image').empty()
       $('.info').empty()
       $('#glimpse').empty()
+      $('#airport').empty()
       // adds city to heading of results
       // $('#chosen-city').append(destination.charAt(0).toUpperCase() + destination.slice(1))
       $('#chosen-city').append(destination).addClass("text-capitalize")
