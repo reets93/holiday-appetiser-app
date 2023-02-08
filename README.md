@@ -43,7 +43,9 @@ Deployed page:
 - Wikipedia: https://en.wikipedia.org/api/rest_v1/
 - Flags of the World: https://flagpedia.net/download/api
 
-
+## Additional API
+- PLEASE NOTE - We did not build this translator but we liked the added functionality it brought to the page
+  https://ultra-fast-translation.p.rapidapi.com/
 
 ## Credits
 The following websites were used to support this project:
