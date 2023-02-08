@@ -24,8 +24,6 @@ In our team, we conceived and executed a design that solves a real-world problem
 - **THEN** a modal will appear to guide the user
 
 ## Usage
-Landing Page:
-![search input](./assets/images/Loading%20Screen.png)
 Deployed Page:
 ![fully functional web page](./assets/images/Full%20size%20screenshot.png)
 
