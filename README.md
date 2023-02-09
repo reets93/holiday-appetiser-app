@@ -63,9 +63,12 @@ The following websites were used to support this project:
 
 
 ## Colloborators
--Rita Fitchett https://github.com/reets93
--Kamel Beloula https://github.com/kamel-beloula
--Lissa Simpson https://github.com/lissasimp
+- Rita Fitchett https://github.com/reets93
+- Kamel Beloula https://github.com/kamel-beloula
+- Lissa Simpson https://github.com/lissasimp
+
+## Project Presentation
+- https://docs.google.com/presentation/d/1OTuDEIMuqXe5_06_KbwjwPVqkfuxwyquVSpXkrEMaJQ/edit?usp=sharing
 
 
 ## License
