@@ -5,15 +5,17 @@
   --btn-outline: rgb(24, 140, 140);
 }
 
-a {
-  color: var(--btn-full) !important;
+body {
+  background-color: #f7fffb !important;
 }
 
-#clear-search {
-  color: #333 !important;
-  text-decoration: underline;
-  font-size: 8px;
-  text-align: right;
+a {
+  color: black !important;
+}
+
+img {
+  width: 50%;
+  margin: auto;
 }
 
 h4 {
@@ -25,18 +27,10 @@ h5 {
   color: rgb(24, 140, 140)
 }
 
-body {
-  background-color: #f7fffb !important;
-}
-
-nav {
-  background-color: var(--btn-full);
-  color: white;
-}
-
-.logo {
-width: 50;
-height: 50;
+section {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
 }
 
 .jumbotron {
@@ -47,6 +41,53 @@ height: 50;
   background-position: center;
   background-size: cover;
   justify-content: center;
+}
+
+.hide {
+  display: none;
+}
+
+.mainInput {
+  display: flex
+}
+
+.wide {
+  width: 100%;
+}
+
+.column {
+  width: auto;
+  height: auto;
+  margin-top: 5px;
+  padding-right: 3rem;
+}
+
+.row {
+  justify-content: space-around;
+}
+
+footer {
+  background-color: var(--btn-outline);
+  color: white
+}
+
+
+/* Nav bar styling */
+nav {
+  background-color: var(--btn-full);
+  color: white;
+}
+
+.logo {
+  width: 50;
+  height: 50;
+}
+/* END Nav bar styling */
+
+
+/* Search History styling */
+#hist-buttons {
+  margin-top: -20px;
 }
 
 #searchHistory {
@@ -60,10 +101,16 @@ height: 50;
   border-top: #333 solid .5px;
 }
 
-#hist-buttons {
-  margin-top: -20px;
+#clear-search {
+  color: #333 !important;
+  text-decoration: underline;
+  font-size: 8px;
+  text-align: right;
 }
+/* END Search History Styling */
 
+
+/* Search/Form Styling */
 form {
   margin: 0 auto;
   border-radius: 4px;
@@ -75,7 +122,10 @@ form {
 #searchInput {
   background-color: rgba(255, 255, 255, 0.9);
 }
+/* END Search/Form Styling */
 
+
+/* Button Styling */
 .btn-sm {
   background-color: none !important;
 }
@@ -101,34 +151,12 @@ form {
   background-color: var(--btn-full) !important;
   border-color: var(--btn-full) !important;
 }
-
-#days {
-  padding-top: 20px;
-  justify-content: center;
-  border-radius: 4px;
-  background-color: var(--light-bg);
-  border: .5px solid rgba(0, 0, 0, .125);
-}
+/* END button styling */
 
 
-.forecast-card {
-  width: 40% !important;
-  display: grid;
-  justify-content: space-evenly;
-}
-
+/* Destination Header */
 #dest-header {
   padding-left: 20px;
-}
-/* kamel added slide class */
-#image-section .slide{
-  background-color: var(--btn-outline);
-  padding: 20px;
-}
-
-#decoration {
-  height: 10px;
-  background-color: var(--dark-bg);
 }
 
 #chosen-city {
@@ -139,13 +167,61 @@ form {
   padding-bottom: 1rem;
   text-align: center;
 }
+/* END Destination Banner */
 
-section {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 50px;
+
+/* Weather Forecast */
+#days {
+  padding-top: 20px;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: var(--light-bg);
+  border: .5px solid rgba(0, 0, 0, .125);
 }
 
+.forecast-card {
+  width: 40% !important;
+  display: grid;
+  justify-content: space-evenly;
+}
+/* END Weather Forecast */
+
+
+#decoration {
+  height: 10px;
+  background-color: var(--dark-bg);
+}
+
+
+/* Handy Stats */
+#information {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+#facts {
+  display: grid;
+  align-content: center;
+}
+/* END Handy Stats */
+
+
+/* Flag Styling */
+#flag {
+  display: grid;
+  justify-content: center;
+}
+
+.flagImg {
+  max-width: 100%;
+  margin-left: 1rem;
+}
+/* Flag Styling */
+
+
+/* Places of Interest */
 #top-attractions {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -159,65 +235,6 @@ section {
   padding: 0 20px;
   margin-bottom: 4rem
 }
-
-@media (min-width: 576px) {
-  .container {
-    max-width: 400px;
-  }
-}
-
-#information {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-  padding: 1rem;
-}
-
-#facts {
-  display: grid;
-  align-content: center;
-}
-
-#flag {
-  display: grid;
-  justify-content: center;
-}
-
-.column {
-  width: auto;
-  height: auto;
-  margin-top: 5px;
-  padding-right: 3rem;
-}
-
-.row {
-  justify-content: space-around;
-}
-
-/* .image {
-  display: inline-flex;
-  display: grid;
-  flex-wrap: wrap;
-  grid-template-columns: 2fr 2fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  grid-gap: 4px;
-  margin: 0 auto;
-  margin: 2rem 0;
-  justify-content: center;
-  align-content: center;
-} */
-
-.flagImg {
-  max-width: 100%;
-  margin-left: 1rem;
-}
-
-
-img {
-    width: 50%;
-    margin: auto;
-}
-
 
 .poi-card img {
   max-height: 260px;
@@ -235,14 +252,19 @@ img {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  /* border: 1px solid rgba(0, 0, 0, .125);
-  border-radius: .25rem; */
 }
 
-@media (min-width: 576px) {
-  .poi-card {
-    height: auto !important;
-  }
+.card-body {
+  background-color: var(--btn-outline);
+  color: white;
+  border-radius: 5%;
+}
+
+.card-body:hover {
+  transform: rotate(2deg);
+  box-shadow: 10px 10px 5px #aaa;
+  background-color: var(--dark-bg);
+
 }
 
 .card {
@@ -256,23 +278,8 @@ img {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+/* END Places of Interest */
 
-.hide {
-  display: none;
-}
-
-.mainInput {
-  display: flex
-}
-
-.wide {
-  width: 100%;
-}
-
-footer {
-  background-color: var(--btn-outline);
-  color: white
-}
 
 /* rapid ap */
 /* Import Google Font - Poppins */
@@ -287,16 +294,16 @@ footer {
   background: #eeeeee;
 } */
 
+
+/* Translator Styling */
 .translator-container {
   max-width: 690px;
-  /* width: 32rem; */
   padding: 24px;
   background: #fff;
   border-radius: 7px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.01);
   border: 1px solid rgba(0, 0, 0, .125);
 }
-
 
 .translator-wrapper {
   border-radius: 5px;
@@ -440,6 +447,39 @@ li,
   color: #b7b6b6;
   ;
 }
+/* END Translator Styling */
+
+
+/* Carousel Styling */
+.carousel-inner>.carousel-item>img {
+  width: 250px;
+  height: auto;
+}
+
+.carousel-item {
+  width: 100vw;
+  align-items: center;
+}
+
+#image-section .slide {
+  background-color: var(--btn-outline);
+  padding: 20px;
+}
+/* END Carousel */
+
+
+/* Media Queries */
+@media (min-width: 576px) {
+  .container {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 576px) {
+  .poi-card {
+    height: auto !important;
+  }
+}
 
 @media (max-width: 660px) {
   .translator-container {
@@ -475,28 +515,4 @@ li,
   .controls .exchange {
     font-size: 14px;
   }
-}
-
-.carousel-inner > .carousel-item > img{
-  width: 250px; 
-  height:auto; 
-}
-
-/* kamel added the below */
-.carousel-item{
-  width: 100vw;
-  align-items: center;
-}
-
-.card-body{
-  background-color: var(--btn-outline);
-  color: white;
-  border-radius: 5%;
-}
-
-.card-body:hover {
-  transform: rotate(2deg);
-  box-shadow: 10px 10px 5px #aaa;
-  background-color: var(--dark-bg);
-  
 }

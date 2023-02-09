@@ -2,12 +2,15 @@ $(document).ready(function () {
   persistData(destinationsHistory);
 });
 
-// RITA's OPENTRIPMAP API
+// OpenTripMap API + radius information
 var apiKey = "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
 var radius = "15000"; //15km radius
+
 var destination;
 var destinationsHistory = JSON.parse(localStorage.getItem("history")) || [];
 
+// START LOCAL STORAGE
+// Persist data from local storage
 // displays searched cities from previous sessions (won't update / populate straight away)
 function persistData() {
   $("#hist-buttons").empty();
@@ -21,6 +24,7 @@ function persistData() {
   }
 }
 
+// Local Storage - Saves Destinations
 function saveDestinations() {
   var destination = $("#searchInput").val().trim();
   if (destinationsHistory.includes(destination)) {
@@ -31,6 +35,7 @@ function saveDestinations() {
   persistData();
 }
 
+// Clear Search History & Local Storage
 $("#clear-search").on("click", function (e) {
   localStorage.clear();
   e.stopPropagation();
@@ -38,6 +43,7 @@ $("#clear-search").on("click", function (e) {
   $("#searchHistory").addClass("hide");
   $("#carouselExampleIndicators").addClass("hide");
 });
+// END Local Storage
 
 // link search history button to search
 function retrieveHistory(e) {
@@ -49,6 +55,7 @@ function retrieveHistory(e) {
   destinationData();
 }
 
+// SURPRISE ME BUTTON CLICK
 // generate random city from list of cities
 $("#random-btn").on("click", function (e) {
   e.preventDefault();
@@ -89,7 +96,10 @@ $("#random-btn").on("click", function (e) {
   console.log(destination);
   destinationData();
 });
+// END Surprise Me Button Click
 
+
+// SUBMIT BUTTON CLICK 
 // generate basic details for the city
 $("#submit-btn").on("click", function (e) {
   e.preventDefault();
@@ -105,8 +115,10 @@ $("#submit-btn").on("click", function (e) {
     saveDestinations();
   }
 });
+// END Submit Button Click
 
-// repeating function to populate search results based on destination text input
+// START Destination Data
+// A repeating function used on button clicks to populate search results. Incorporates all APIs and data
 function destinationData() {
   var destURL =
     "http://api.opentripmap.com/0.1/en/places/geoname?name=" +
@@ -156,8 +168,9 @@ function destinationData() {
     }
   });
 }
+// END Destination Data
 
-//Lissa Timezone function
+//START Timezone
 function timezone() {
   $.ajax({
     method: "GET",
@@ -179,8 +192,9 @@ function timezone() {
     },
   });
 }
+// END Timezone
 
-//Lissa Airport
+//START Airport
 function airport() {
   const options = {
     method: "GET",
@@ -192,7 +206,7 @@ function airport() {
 
   fetch(
     "https://travel-advisor.p.rapidapi.com/airports/search?query=" +
-      destination,
+    destination,
     options
   )
     .then((response) => {
@@ -204,7 +218,6 @@ function airport() {
         console.log("There are no airports associated with this city");
         $("#airport").text("There are no airports associated with this city");
       }
-    
 
       if (result.length === 1) {
         var allAirports = result[0].display_name;
@@ -219,8 +232,9 @@ function airport() {
       }
     });
 }
+// END Airport
 
-//Lissa Weather
+//START Weather Forecast - generates results 
 function displayForecast() {
   var apiKey = "76dd56a7c869514402bbcfd7dbd7cbb7";
   var forecast =
@@ -245,8 +259,8 @@ function displayForecast() {
         var image = $("<img>").attr(
           "src",
           "http://openweathermap.org/img/w/" +
-            weatherArray[i].weather[0].icon +
-            ".png"
+          weatherArray[i].weather[0].icon +
+          ".png"
         );
         var minTemp = $("<p>").text(
           "Min Temperature: " + Math.floor(weatherArray[i].main.temp_min) + "°C"
@@ -257,7 +271,6 @@ function displayForecast() {
         var dayOfWeek = moment(response.list[i].dt_txt.split(" ")[0]).format(
           "dddd"
         );
-        // cityMain.append(image).append(dayOfWeek).append(date).append(maxTemp)
         cityMain.append(image).append(dayOfWeek).append(maxTemp);
 
         $("#days").append(cityMain);
@@ -265,11 +278,12 @@ function displayForecast() {
     }
   });
 }
+// END Weather
 
-// links flag to country code
+// LINKS COUNTRY TO A FLAG
 function flag(response) {
   var countryCode = response.country.toLowerCase();
-  var flagURL = "https://flagcdn.com/w320/" + countryCode + ".png"; // perhaps use openweather countrycode for more accuracy?
+  var flagURL = "https://flagcdn.com/w320/" + countryCode + ".png";
   var flag = $("<img>")
     .attr("src", flagURL)
     .css({ border: ".05px solid #333333" })
@@ -277,7 +291,7 @@ function flag(response) {
   $("#flag").append(flag);
 }
 
-// uses basic info + inputted radius to generate search results
+// USES INITIAL INFO TO GENERATE SEARCH RESULTS
 function moreDetails(response) {
   var lon = response.lon;
   var lat = response.lat;
@@ -302,7 +316,8 @@ function moreDetails(response) {
   });
 }
 //***************************************************************************************************************************************** */
-// points of interest start
+
+// START Points of Interest
 // points of interest Div element
 let poiEl = $("#top-attractions");
 
@@ -324,7 +339,7 @@ function pointsOfInterest(filterResults) {
       .then((data) => {
         // console.log(data)
 
-        //creating dynamically HTML card and appendint it to the POI Div with the releveant data elements
+        //creating dynamically HTML card and appending it to the POI Div with the releveant data elements
         poiEl.append(
           $("<div>", {
             class: "col-sm-12 col-md-6 col-lg-4 attraction-card",
@@ -339,7 +354,7 @@ function pointsOfInterest(filterResults) {
                   .attr("class", "card-text")
                   .html(
                     data.wikipedia_extracts.html.substring(0, 200) +
-                      `<a style=("color","rgb(24, 140, 140)") target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
+                    `<a style=("color","rgb(24, 140, 140)") target="_blank" href="${data.wikipedia}"> ...Read more at Wikipedia.org</a>`
                   ),
               ])
             )
@@ -348,10 +363,10 @@ function pointsOfInterest(filterResults) {
       });
   }
 }
-// points of interest end
+// END Points of Interest
 
 //**********************************************************************************************************************************//
-// KAMEL UNSPLASH Carousel
+// Unsplash Carousel
 // let destination = prompt("Where do you want to go?")
 $(".carousel").carousel();
 let unsplashKey = "ESyjXqRXwVskR1K0ur2j9_oBwjBORBDQ-nCOppV4ie0";
@@ -376,11 +391,11 @@ function loadImg() {
       }
     });
 }
-//end unsplash
+//END Unsplash
 
 //****************************************************************************************************************************************************** */
 
-// KAMEL Wiki
+// START Wiki
 function infos() {
   const url =
     "https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&prop=extracts&exchars=1000&exintro=true&explaintext=true&generator=search&gsrlimit=3&gsrsearch=" +
@@ -398,11 +413,11 @@ function infos() {
       $(".info").append($("<p>").text(result[0].extract));
     });
 }
-// end wiki
+// END Wiki
 
 //***************************************************************************************************************************************************************** */
 
-//translator start
+// START Translator
 //https://codepen.io/oussamasibari/pen/JjLLxxv
 const countries = {
   "am-ET": "Amharic",
@@ -518,8 +533,8 @@ const fromText = document.querySelector(".from-text"),
             ? "selected"
             : ""
           : country_code == "es-ES"
-          ? "selected"
-          : "";
+            ? "selected"
+            : "";
       let option = `<option ${selected} value="${country_code}">${countries[country_code]}</option>`;
       tag.insertAdjacentHTML("beforeend", option);
     }
@@ -608,6 +623,6 @@ icons.forEach((icon) => {
     }
   });
 });
-//translator end
+//END translator
 
 $("#hist-buttons").on("click", retrieveHistory);
