@@ -121,7 +121,7 @@ $("#submit-btn").on("click", function (e) {
 // A repeating function used on button clicks to populate search results. Incorporates all APIs and data
 function destinationData() {
   var destURL =
-    "http://api.opentripmap.com/0.1/en/places/geoname?name=" +
+    "https://api.opentripmap.com/0.1/en/places/geoname?name=" +
     destination +
     "&apikey=" +
     "5ae2e3f221c38a28845f05b6b0c68e4cbb10ed5f2dbed753f3070329";
@@ -258,7 +258,7 @@ function displayForecast() {
         var date = $("<h6>").text(response.list[i].dt_txt.split(" ")[0]);
         var image = $("<img>").attr(
           "src",
-          "http://openweathermap.org/img/w/" +
+          "https://openweathermap.org/img/w/" +
           weatherArray[i].weather[0].icon +
           ".png"
         );
@@ -329,7 +329,7 @@ function pointsOfInterest(filterResults) {
   for (let i = 0; i <= filterResults.length; i++) {
     let xid = filterResults[i].xid;
     var url =
-      "http://api.opentripmap.com/0.1/en/places/xid/" +
+      "https://api.opentripmap.com/0.1/en/places/xid/" +
       xid +
       "?apikey=" +
       apiKey;
