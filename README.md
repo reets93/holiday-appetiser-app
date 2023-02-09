@@ -24,7 +24,7 @@ In our team, we conceived and executed a design that solves a real-world problem
 - **THEN** a modal will appear to guide the user
 
 ## Usage
-Deployed Page:
+Deployed Page: https://reets93.github.io/travel2-holiday-app/ 
 ![fully functional web page](./assets/images/Full%20size%20screenshot.png)
 
 ## Technologies Used
