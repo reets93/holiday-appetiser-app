@@ -57,7 +57,7 @@ The following websites were used to support this project:
 - Max amount of characters: https://stackoverflow.com/questions/19425555/maximum-amount-of-characters-in-a-div-paragraph-tag
 
 
-## Colloborators
+## Collaborators
 - Rita Fitchett https://github.com/reets93
 - Kamel Beloula https://github.com/kamel-beloula
 - Lissa Simpson https://github.com/lissasimp
