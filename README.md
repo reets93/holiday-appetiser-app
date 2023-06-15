@@ -1,7 +1,7 @@
 # Travel2
 
 ## Features
-## This application has the following features:
+### This application has the following features:
 - A user can generate information about a city by eneterin a city name in the search bar, clicking on Surpise Me or by selecting one of the previous searches.
 - The application displays a 4 day weather forecast; some handy city facts including timezone; a carousel of images; a translation app and some interesting places to visit.
 - A random city is generated from an array and page is dynamically updated.
@@ -11,7 +11,7 @@
 As a prospective traveler, I would like an application that allows me to search for key information about a city I wish to visit or to explore other cities I may wish to visit. When I am on the homepage, I am presented with key information for my chosen city in an easy to navigate and clearly presented format.  When looking for places of interest, I am provided with 6 options and additionally the opportuntiy to explore further on Wikipedia.
 
 ## Installation
-## Clone Repository
+### Clone Repository
 - git clone https://github.com/lissasimp/Travel2App
 
 ## Start Application
@@ -71,4 +71,6 @@ The following websites were used to support this project:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
