@@ -4,22 +4,29 @@
 <<<<<<< HEAD
 ### This application has the following features:
 =======
+<<<<<<< HEAD
+### This application has the following features:
+=======
 ## This application has the following features:
 >>>>>>> b02c32cc6d2dd64983b6061d5659ab35781fabb6
-- A user can generate information about a city by entering a city name in the search bar, clicking on Surpise Me or by selecting one of the previous searches.
+- A user can generate information about a city by eneterin a city name in the search bar, clicking on Surpise Me or by selecting one of the previous searches.
 - The application displays a 4 day weather forecast; some handy city facts including timezone; a carousel of images; a translation app and some interesting places to visit.
 - A random city is generated from an array and page is dynamically updated.
 - If a user enters incorrect information, a modal will appear to guide them.
 
 ## User Story
-As a prospective traveler, I would like an application that allows me to search for key information about a city I wish to visit or to explore other cities I may wish to visit. When I am on the homepage, I am presented with key information for my chosen city in an easy to navigate and clearly presented format.  When looking for places of interest, I am provided with 6 options and additionally the opportuntiy to explore further on Wikipedia.
+TEST As a prospective traveler, I would like an application that allows me to search for key information about a city I wish to visit or to explore other cities I may wish to visit. When I am on the homepage, I am presented with key information for my chosen city in an easy to navigate and clearly presented format.  When looking for places of interest, I am provided with 6 options and additionally the opportuntiy to explore further on Wikipedia.
 
 ## Installation
 <<<<<<< HEAD
 ### Clone Repository
 =======
+<<<<<<< HEAD
+### Clone Repository
+=======
 ## Clone Repository
 >>>>>>> b02c32cc6d2dd64983b6061d5659ab35781fabb6
+>>>>>>> 2dca7c74b3b2bf5061137de2fca94a50ee13d003
 - git clone https://github.com/lissasimp/Travel2App
 
 ## Start Application
