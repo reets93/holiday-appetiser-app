@@ -16,7 +16,7 @@
 - If a user enters incorrect information, a modal will appear to guide them.
 
 ## User Story
-As a prospective traveler, I would like an application that allows me to search for key information about a city I wish to visit or to explore other cities I may wish to visit. When I am on the homepage, I am presented with key information for my chosen city in an easy to navigate and clearly presented format.  When looking for places of interest, I am provided with 6 options and additionally the opportuntiy to explore further on Wikipedia.
+TEST As a prospective traveler, I would like an application that allows me to search for key information about a city I wish to visit or to explore other cities I may wish to visit. When I am on the homepage, I am presented with key information for my chosen city in an easy to navigate and clearly presented format.  When looking for places of interest, I am provided with 6 options and additionally the opportuntiy to explore further on Wikipedia.
 
 ## Installation
 <<<<<<< HEAD
